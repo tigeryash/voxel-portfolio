@@ -3,20 +3,30 @@ import "./index.css";
 import Experience from "./Experience.tsx";
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
+import { KeyboardControls } from "@react-three/drei";
 
 createRoot(document.getElementById("root")!).render(
-  <>
+  <KeyboardControls
+    map={[
+      { name: "forward", keys: ["ArrowUp", "KeyW"] },
+      { name: "backward", keys: ["ArrowDown", "KeyS"] },
+      { name: "left", keys: ["ArrowLeft", "KeyA"] },
+      { name: "right", keys: ["ArrowRight", "KeyD"] },
+      { name: "jump", keys: ["Space"] },
+    ]}
+  >
     <Canvas
       gl={{ antialias: true }}
       shadows
       camera={{
         fov: 45,
         near: 0.1,
-        far: 200,
+        far: 2000,
       }}
     >
+      <color args={["#000000"]} attach="background" />
       <Experience />
     </Canvas>
     <Leva collapsed />
-  </>
+  </KeyboardControls>
 );
