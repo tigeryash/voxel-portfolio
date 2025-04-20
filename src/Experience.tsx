@@ -28,7 +28,9 @@ function Experience() {
     shadowCameraRight,
     shadowCameraBottom,
     shadowCameraLeft,
+    ambientIntensity,
   } = useControls("Directional Light", {
+    ambientIntensity: { value: 0.45, min: 0, max: 1, step: 0.01 },
     intensity: { value: 4.6, min: 0, max: 10, step: 0.1 },
     color: "#9c9c9c",
     castShadow: true,
@@ -80,6 +82,7 @@ function Experience() {
     <>
       <Perf position="top-left" />
       <OrbitControls />
+
       <SoftShadows size={10} samples={35} focus={5} />
       <Models />
       <directionalLight
@@ -99,7 +102,7 @@ function Experience() {
         shadow-blurSamples={blurSamples}
         shadow-normalBias={1} // More precise bias
       ></directionalLight>
-      <ambientLight intensity={0.45} color="#ffffff" />
+      <ambientLight intensity={ambientIntensity} color="#ffffff" />
     </>
   );
 }

@@ -24,7 +24,7 @@ createRoot(document.getElementById("root")!).render(
         far: 2000,
       }}
     >
-      <color args={["#000000"]} attach="background" />
+      <color args={["#5c9fe6"]} attach="background" />
       <Experience />
     </Canvas>
     <Leva collapsed />

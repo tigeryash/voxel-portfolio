@@ -1,6 +1,8 @@
 import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useHelper } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { useRef } from "react";
+import { useControls } from "leva";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -157,6 +159,16 @@ type GLTFResult = GLTF & {
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;
+  const light = useRef<THREE.SpotLight>(null!);
+  useHelper(light, THREE.SpotLightHelper, "cyan");
+
+  const { intensity, distance, angle, position } = useControls("spotlight", {
+    intensity: { value: 1.5, min: 0, max: 10, step: 0.1 },
+    distance: { value: 15, min: 0, max: 100, step: 0.1 },
+    angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
+    position: { value: [0, 0, 2], min: -10, max: 10, step: 0.1 },
+  });
+
   return (
     <group dispose={null}>
       <group name="Scene">
@@ -319,6 +331,15 @@ export default function Models() {
             castShadow
             geometry={nodes.Cube007_1.geometry}
             material={materials.sign2}
+          />
+          <spotLight
+            ref={light}
+            distance={distance}
+            angle={angle}
+            intensity={intensity}
+            position={position} // Position in front of the sign
+            color="#ffffff"
+            castShadow={false} // Important: Don't cast additional shadows
           />
         </group>
         <group
