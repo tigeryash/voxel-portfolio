@@ -332,15 +332,6 @@ export default function Models() {
             geometry={nodes.Cube007_1.geometry}
             material={materials.sign2}
           />
-          <spotLight
-            ref={light}
-            distance={distance}
-            angle={angle}
-            intensity={intensity}
-            position={position} // Position in front of the sign
-            color="#ffffff"
-            castShadow={false} // Important: Don't cast additional shadows
-          />
         </group>
         <group
           name="sign003"
@@ -400,6 +391,15 @@ export default function Models() {
             castShadow
             geometry={nodes.Cube010_1.geometry}
             material={materials.sign6}
+          />
+          <spotLight
+            ref={light}
+            distance={distance}
+            angle={angle}
+            intensity={intensity}
+            position={position} // Position in front of the sign
+            color="#ffffff"
+            castShadow={false} // Important: Don't cast additional shadows
           />
         </group>
         <group

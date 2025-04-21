@@ -1,5 +1,6 @@
 import {
   OrbitControls,
+  OrbitControlsChangeEvent,
   SoftShadows,
   useGLTF,
   useHelper,
@@ -9,16 +10,38 @@ import Models from "./Models.tsx";
 import { Perf } from "r3f-perf";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { useThree } from "@react-three/fiber";
+import { useCameraStore } from "./stores/useCameraStore.ts";
 
 function Experience() {
   const lightRef = useRef<THREE.DirectionalLight>(null!);
+  const { camera } = useThree();
+  const controlsRef = useRef<OrbitControlsChangeEvent | null>(null);
+
+  const { position, target, setPosition } = useCameraStore();
+
+  useEffect(() => {
+    if (camera) {
+      // Set camera position from stored value
+      camera.position.set(position[0], position[1], position[2]);
+    }
+  }, [camera, position, target]);
+
+  // Save camera position when it changes
+  const handleControlsChange = () => {
+    if (camera && controlsRef.current) {
+      // Save position when camera moves
+      setPosition([camera.position.x, camera.position.y, camera.position.z]);
+    }
+  };
 
   useHelper(lightRef, THREE.DirectionalLightHelper, 1, "hotpink");
+
   const {
+    dposition,
     intensity,
     color,
     castShadow,
-    position,
     shadowBias,
     softness,
     blurSamples,
@@ -34,7 +57,7 @@ function Experience() {
     intensity: { value: 4.6, min: 0, max: 10, step: 0.1 },
     color: "#9c9c9c",
     castShadow: true,
-    position: [-170, 120, 170],
+    dposition: [-170, 120, 170],
     shadowBias: { value: -0.0005, min: -0.01, max: 0.01, step: 0.0001 }, // More precise bias
     normalBias: { value: 0.002, min: 0, max: 0.01, step: 0.0001 },
     softness: { value: 8, min: 0, max: 20, step: 0.1 },
@@ -75,13 +98,10 @@ function Experience() {
     shadowCameraLeft,
   ]);
 
-  // useFrame(() => {
-  //   console.log(camera.position);
-  // });
   return (
     <>
       <Perf position="top-left" />
-      <OrbitControls />
+      <OrbitControls onChange={handleControlsChange} />
 
       <SoftShadows size={10} samples={35} focus={5} />
       <Models />
@@ -90,7 +110,7 @@ function Experience() {
         castShadow={castShadow}
         intensity={intensity}
         color={color}
-        position={position}
+        position={dposition}
         shadow-camera-far={shadowCameraFar}
         shadow-mapSize={[4096, 4096]}
         shadow-camera-near={shadowCameraNear}
