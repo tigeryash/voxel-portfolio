@@ -4,6 +4,7 @@ import Experience from "./Experience.tsx";
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
 import { KeyboardControls } from "@react-three/drei";
+import Modal from "./components/Modal.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <KeyboardControls
@@ -28,5 +29,6 @@ createRoot(document.getElementById("root")!).render(
       <Experience />
     </Canvas>
     <Leva collapsed />
+    <Modal />
   </KeyboardControls>
 );

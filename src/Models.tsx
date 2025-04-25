@@ -1,174 +1,12 @@
 import * as THREE from "three";
 import { useGLTF, useHelper } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
 import { useRef } from "react";
-import { useControls } from "leva";
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Cube044: THREE.Mesh;
-    Cube044_1: THREE.Mesh;
-    Cube044_2: THREE.Mesh;
-    Cube044_3: THREE.Mesh;
-    Cube044_4: THREE.Mesh;
-    Cube044_5: THREE.Mesh;
-    Cube044_6: THREE.Mesh;
-    Cube044_7: THREE.Mesh;
-    Cube044_8: THREE.Mesh;
-    Cube044_9: THREE.Mesh;
-    Cube044_10: THREE.Mesh;
-    Cube044_11: THREE.Mesh;
-    Cube044_12: THREE.Mesh;
-    Cube044_13: THREE.Mesh;
-    Cube015: THREE.Mesh;
-    Cube015_1: THREE.Mesh;
-    Cube006: THREE.Mesh;
-    Cube006_1: THREE.Mesh;
-    Cube007: THREE.Mesh;
-    Cube007_1: THREE.Mesh;
-    Cube008: THREE.Mesh;
-    Cube008_1: THREE.Mesh;
-    Cube009: THREE.Mesh;
-    Cube009_1: THREE.Mesh;
-    Cube010: THREE.Mesh;
-    Cube010_1: THREE.Mesh;
-    Cube016: THREE.Mesh;
-    Cube016_1: THREE.Mesh;
-    Cube016_2: THREE.Mesh;
-    Cube016_3: THREE.Mesh;
-    Cube016_4: THREE.Mesh;
-    Cube016_5: THREE.Mesh;
-    Cube016_6: THREE.Mesh;
-    Cube016_7: THREE.Mesh;
-    Cube016_8: THREE.Mesh;
-    Cube016_9: THREE.Mesh;
-    Cube016_10: THREE.Mesh;
-    Cube016_11: THREE.Mesh;
-    Cube016_12: THREE.Mesh;
-    Cube016_13: THREE.Mesh;
-    Cube016_14: THREE.Mesh;
-    Cube016_15: THREE.Mesh;
-    Cube016_16: THREE.Mesh;
-    Cube016_17: THREE.Mesh;
-    Cube016_18: THREE.Mesh;
-    Cube016_19: THREE.Mesh;
-    Cube016_20: THREE.Mesh;
-    Cylinder010: THREE.Mesh;
-    Cylinder010_1: THREE.Mesh;
-    Cylinder010_2: THREE.Mesh;
-    Cylinder010_3: THREE.Mesh;
-    Cylinder010_4: THREE.Mesh;
-    Cylinder004: THREE.Mesh;
-    Cylinder004_1: THREE.Mesh;
-    Cylinder004_2: THREE.Mesh;
-    Cylinder004_3: THREE.Mesh;
-    Cylinder004_4: THREE.Mesh;
-    Cylinder004_5: THREE.Mesh;
-    Cylinder004_6: THREE.Mesh;
-    Cylinder004_7: THREE.Mesh;
-    Cylinder004_8: THREE.Mesh;
-    Cylinder004_9: THREE.Mesh;
-    Cylinder004_10: THREE.Mesh;
-    Cylinder004_11: THREE.Mesh;
-    Cylinder004_12: THREE.Mesh;
-    Cylinder004_13: THREE.Mesh;
-    Cube017: THREE.Mesh;
-    Cube017_1: THREE.Mesh;
-    Cube017_2: THREE.Mesh;
-    Cube017_3: THREE.Mesh;
-    Cube017_4: THREE.Mesh;
-    Cube017_5: THREE.Mesh;
-    Cube017_6: THREE.Mesh;
-    Cube017_7: THREE.Mesh;
-    Cube017_8: THREE.Mesh;
-    Cube017_9: THREE.Mesh;
-  };
-  materials: {
-    ["tv frame"]: THREE.MeshStandardMaterial;
-    tvscreen: THREE.MeshStandardMaterial;
-    ["tv stand"]: THREE.MeshStandardMaterial;
-    coffetable: THREE.MeshStandardMaterial;
-    coffeetable2: THREE.MeshStandardMaterial;
-    couch: THREE.MeshStandardMaterial;
-    ["couch 2"]: THREE.MeshStandardMaterial;
-    ps4: THREE.MeshStandardMaterial;
-    ps5: THREE.MeshStandardMaterial;
-    ps5sides: THREE.MeshStandardMaterial;
-    ps5controller: THREE.MeshStandardMaterial;
-    controllerin: THREE.MeshStandardMaterial;
-    switchdock: THREE.MeshStandardMaterial;
-    switchscreen: THREE.MeshStandardMaterial;
-    Material: THREE.MeshStandardMaterial;
-    sign4: THREE.MeshStandardMaterial;
-    sign3: THREE.MeshStandardMaterial;
-    sign2: THREE.MeshStandardMaterial;
-    sign1: THREE.MeshStandardMaterial;
-    sign5: THREE.MeshStandardMaterial;
-    sign6: THREE.MeshStandardMaterial;
-    benchframe: THREE.MeshStandardMaterial;
-    benchwood: THREE.MeshStandardMaterial;
-    signborder: THREE.MeshStandardMaterial;
-    signcolor: THREE.MeshStandardMaterial;
-    text: THREE.MeshStandardMaterial;
-    signstand: THREE.MeshStandardMaterial;
-    signstandbase: THREE.MeshStandardMaterial;
-    grass: THREE.MeshStandardMaterial;
-    tarmac: THREE.MeshStandardMaterial;
-    ["road curb"]: THREE.MeshStandardMaterial;
-    ["road paint"]: THREE.MeshStandardMaterial;
-    leaves: THREE.MeshStandardMaterial;
-    trunk: THREE.MeshStandardMaterial;
-    fence: THREE.MeshStandardMaterial;
-    zengarden: THREE.MeshStandardMaterial;
-    gardenrocks: THREE.MeshStandardMaterial;
-    ["grass.001"]: THREE.MeshStandardMaterial;
-    pond: THREE.MeshStandardMaterial;
-    gardenborder: THREE.MeshStandardMaterial;
-    gardentree: THREE.MeshStandardMaterial;
-    gardenleaves: THREE.MeshStandardMaterial;
-    dumbell: THREE.MeshStandardMaterial;
-    gymbenchstand: THREE.MeshStandardMaterial;
-    gymbench: THREE.MeshStandardMaterial;
-    ["yoga mat"]: THREE.MeshStandardMaterial;
-    ["pullup bar"]: THREE.MeshStandardMaterial;
-    roofichiraku: THREE.MeshStandardMaterial;
-    counterichiraku: THREE.MeshStandardMaterial;
-    ichirakuwalls: THREE.MeshStandardMaterial;
-    irchiraku1: THREE.MeshStandardMaterial;
-    ichiraku2: THREE.MeshStandardMaterial;
-    ichiraku3: THREE.MeshStandardMaterial;
-    ichiraku4: THREE.MeshStandardMaterial;
-    ichiraku5: THREE.MeshStandardMaterial;
-    inchirakutower: THREE.MeshStandardMaterial;
-    ichirkausignthread: THREE.MeshStandardMaterial;
-    ichirakusignthing: THREE.MeshStandardMaterial;
-    ichirakusignthingplain: THREE.MeshStandardMaterial;
-    ["Material.001"]: THREE.MeshStandardMaterial;
-    boots: THREE.MeshStandardMaterial;
-    button: THREE.MeshStandardMaterial;
-    cloak: THREE.MeshStandardMaterial;
-    bezel: THREE.MeshStandardMaterial;
-    Skin: THREE.MeshStandardMaterial;
-    pants: THREE.MeshStandardMaterial;
-    hair: THREE.MeshStandardMaterial;
-    buckle: THREE.MeshStandardMaterial;
-    eye: THREE.MeshStandardMaterial;
-    pupil: THREE.MeshStandardMaterial;
-  };
-};
+import { GLTFResult } from "types/types";
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;
   const light = useRef<THREE.SpotLight>(null!);
   useHelper(light, THREE.SpotLightHelper, "cyan");
-
-  const { intensity, distance, angle, position } = useControls("spotlight", {
-    intensity: { value: 1.5, min: 0, max: 10, step: 0.1 },
-    distance: { value: 15, min: 0, max: 100, step: 0.1 },
-    angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
-    position: { value: [0, 0, 2], min: -10, max: 10, step: 0.1 },
-  });
-
   return (
     <group dispose={null}>
       <group name="Scene">
@@ -379,6 +217,7 @@ export default function Models() {
           rotation={[0, 1.001, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign.005" }}
+          onClick={() => {}}
         >
           <mesh
             name="Cube010"
@@ -391,15 +230,6 @@ export default function Models() {
             castShadow
             geometry={nodes.Cube010_1.geometry}
             material={materials.sign6}
-          />
-          <spotLight
-            ref={light}
-            distance={distance}
-            angle={angle}
-            intensity={intensity}
-            position={position} // Position in front of the sign
-            color="#ffffff"
-            castShadow={false} // Important: Don't cast additional shadows
           />
         </group>
         <group
@@ -457,7 +287,13 @@ export default function Models() {
             receiveShadow
             geometry={nodes.Cube016_7.geometry}
             material={materials.grass}
-          />
+          >
+            <meshStandardMaterial
+              color="#4CAF50"
+              roughness={0.8}
+              metalness={0.1}
+            />
+          </mesh>
           <mesh
             name="Cube016_8"
             receiveShadow

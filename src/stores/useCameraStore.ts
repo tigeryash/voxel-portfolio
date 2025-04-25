@@ -1,24 +1,41 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { Vector3 } from "three";
 
 type CameraStore = {
-  position: [number, number, number];
+  position: Vector3;
   target: [number, number, number];
-  setPosition: (position: [number, number, number]) => void;
+  setPosition: (position: Vector3) => void;
   setTarget: (target: [number, number, number]) => void;
   resetCamera: () => void;
 };
 
-const DEFAULT_POSITION: [number, number, number] = [0, 100, 200];
+const DEFAULT_POSITION: Vector3 = new Vector3(0, 0, 10);
 const DEFAULT_TARGET: [number, number, number] = [0, 0, 0];
 
 const STORAGE_KEY = "camera-storage";
 
-const hasStoredPosition = () => {
-  const stored = sessionStorage.getItem(STORAGE_KEY);
-  if (!!stored && stored !== "undefined") {
-    return JSON.parse(stored);
-  } else {
+const getStoredPosition = (): Vector3 => {
+  try {
+    const storedData = localStorage.getItem(STORAGE_KEY);
+
+    if (!storedData) {
+      return DEFAULT_POSITION;
+    }
+
+    // Parse the stored data - it contains the full persist state
+    const parsedData = JSON.parse(storedData);
+
+    // Check if the data has a state property with position
+    if (parsedData && parsedData.state && parsedData.state.position) {
+      const { x, y, z } = parsedData.state.position;
+      // Ensure the position is a Vector3
+      return new Vector3(x, y, z);
+    }
+    console.log("Stored camera position is invalid");
+    return DEFAULT_POSITION;
+  } catch (e) {
+    console.warn("Failed to parse stored camera position", e);
     return DEFAULT_POSITION;
   }
 };
@@ -26,7 +43,7 @@ const hasStoredPosition = () => {
 export const useCameraStore = create<CameraStore>()(
   persist(
     (set) => ({
-      position: hasStoredPosition(),
+      position: getStoredPosition(),
       target: DEFAULT_TARGET,
 
       setPosition: (position) => set({ position }),
@@ -34,7 +51,7 @@ export const useCameraStore = create<CameraStore>()(
 
       resetCamera: () => {
         try {
-          sessionStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(STORAGE_KEY);
         } catch (e) {
           console.warn("Failed to clear camera storage", e);
         } finally {
@@ -47,7 +64,7 @@ export const useCameraStore = create<CameraStore>()(
     }),
     {
       name: STORAGE_KEY, // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
     }
   )
 );
