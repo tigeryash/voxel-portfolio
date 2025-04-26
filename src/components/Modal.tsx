@@ -1,28 +1,71 @@
+import { projects } from "../lib/constants";
+import { useSignStore } from "../stores/useSignStore";
+
 const Modal = () => {
+  const { isModalOpen, signTitle, closeModal } = useSignStore();
+  const signData = projects.find((project) => project.name === signTitle);
+  console.log(signData);
+
   return (
-    <div
-      className="absolute w-[90%] sm:w-[600px] h-1/2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex 
-     z-10 bg-black rounded-lg text-white overflow-hidden flex-col"
-    >
-      <img src="awwwards.webp" className="object-cover fixed" />
-      <div
-        className=" absolute w-full bottom-0 h-[70%] flex flex-col  z-10"
-        style={{
-          background:
-            "linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0, 212, 255, 0.47) 33%, rgba(0, 212, 255, 1) 62%)",
-        }}
-      >
-        <h1 className=" text-6xl p-2">Title</h1>
-        <div>
-          <p>tag </p>
-          <p>tag </p>
-          <p>tag </p>
-          <p>tag </p>
-          <p>tag </p>
-          <p>tag </p>
+    isModalOpen && (
+      <div className="inset-0 fixed z-10 bg-black/50 flex justify-center items-center">
+        <div
+          className=" w-[90%] sm:w-[600px] h-1/2 relative flex z-10bg-black rounded-lg text-white overflow-hidden flex-col"
+          style={{
+            background: signData?.background,
+          }}
+        >
+          <button
+            className="absolute top-3 right-3 p-2 z-10 bg-red-500/40 hover:bg-red-500/90 rounded-full w-8 h-8 flex items-center justify-center 
+            text-white transition-colors"
+            onClick={() => closeModal()}
+          >
+            X
+          </button>
+          <img
+            src={signData?.image}
+            className="object-cover w-full h-full brightness-80"
+            alt={signData?.title || "Project image"}
+          />
+
+          <div
+            className=" absolute w-full bottom-0 pt-12 space-y-3 h-[70%] flex flex-col 
+             z-10 px-2 font-semibold text-zinc-100"
+            style={{
+              background: signData?.background,
+
+              //   backdropFilter: "blur(20px)",
+              //   WebkitBackdropFilter: "blur(20px)", // For Safari support
+            }}
+          >
+            <div className="flex justify-between items-center">
+              <h1 className=" text-6xl p-2 text-nowrap">{signData?.title}</h1>
+
+              <div className="flex gap-2 pr-8 ">
+                <a
+                  href={signData?.github}
+                  className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
+                >
+                  <img src="/github.svg" alt="link togithub" />
+                </a>
+                <a
+                  href={signData?.link}
+                  className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
+                >
+                  <img src="/link.svg" alt="link to project" />
+                </a>
+              </div>
+            </div>
+            <div className="flex gap-2 px-4">
+              {signData?.tags.map((tag) => (
+                <p className="px-4 rounded-full bg-zinc-700/70">{tag}</p>
+              ))}
+            </div>
+            <p className="px-4">{signData?.description}</p>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 

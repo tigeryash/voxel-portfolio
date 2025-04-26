@@ -2,11 +2,15 @@ import * as THREE from "three";
 import { useGLTF, useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import { GLTFResult } from "types/types";
+import { useSignStore } from "./stores/useSignStore";
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;
   const light = useRef<THREE.SpotLight>(null!);
   useHelper(light, THREE.SpotLightHelper, "cyan");
+
+  const { setSignTitle, setIsModalOpen } = useSignStore();
+
   return (
     <group dispose={null}>
       <group name="Scene">
@@ -117,6 +121,10 @@ export default function Models() {
           rotation={[0, 0.17, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign" }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("marble");
+          }}
         >
           <mesh
             name="Cube015"
@@ -137,6 +145,10 @@ export default function Models() {
           rotation={[0, 0.17, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign.001" }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("chatgpt");
+          }}
         >
           <mesh
             name="Cube006"
@@ -157,6 +169,10 @@ export default function Models() {
           rotation={[0, -0.648, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign.002" }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("solarite");
+          }}
         >
           <mesh
             name="Cube007"
@@ -177,6 +193,10 @@ export default function Models() {
           rotation={[0, -0.5, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign.003" }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("portal");
+          }}
         >
           <mesh
             name="Cube008"
@@ -197,6 +217,10 @@ export default function Models() {
           rotation={[0, 0.939, 0]}
           scale={[7.755, 5.346, 0.603]}
           userData={{ name: "sign.004" }}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("spotlight");
+          }}
         >
           <mesh
             name="Cube009"
@@ -217,7 +241,10 @@ export default function Models() {
           rotation={[0, 1.001, 0]}
           scale={[6.045, 4.167, 0.47]}
           userData={{ name: "sign.005" }}
-          onClick={() => {}}
+          onClick={() => {
+            setIsModalOpen(true);
+            setSignTitle("awwwards");
+          }}
         >
           <mesh
             name="Cube010"
