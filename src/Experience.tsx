@@ -1,6 +1,5 @@
 import {
   OrbitControls,
-  OrbitControlsChangeEvent,
   SoftShadows,
   useGLTF,
   useHelper,
@@ -8,58 +7,11 @@ import {
 import { useControls } from "leva";
 import Models from "./Models.tsx";
 import { Perf } from "r3f-perf";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useFrame, useThree } from "@react-three/fiber";
-import { useCameraStore } from "./stores/useCameraStore.ts";
 
 function Experience() {
   const lightRef = useRef<THREE.DirectionalLight>(null!);
-  const { camera } = useThree();
-  const controlsRef = useRef<OrbitControlsChangeEvent | null>(null);
-  const [isPositionApplied, setIsPositionApplied] = useState(false);
-
-  const { position, setPosition } = useCameraStore();
-
-  useEffect(() => {
-    if (camera && !isPositionApplied) {
-      camera.position.set(position.x, position.y, position.z);
-
-      // Allow a small delay before we start tracking position changes
-      setTimeout(() => {
-        setIsPositionApplied(true);
-      }, 100);
-    }
-  }, [camera, position, isPositionApplied, setPosition]);
-
-  useFrame(() => {
-    if (camera && isPositionApplied) {
-      // Check if camera position has significantly changed to avoid constant saving
-
-      // Save new position
-      setPosition(
-        new THREE.Vector3(
-          camera.position.x,
-          camera.position.y,
-          camera.position.z
-        )
-      );
-    }
-  });
-
-  // Save camera position when it changes
-  const handleControlsChange = () => {
-    if (camera && controlsRef.current) {
-      // Save position when camera moves
-      setPosition(
-        new THREE.Vector3(
-          camera.position.x,
-          camera.position.y,
-          camera.position.z
-        )
-      );
-    }
-  };
 
   useHelper(lightRef, THREE.DirectionalLightHelper, 1, "hotpink");
 
@@ -127,7 +79,7 @@ function Experience() {
   return (
     <>
       <Perf position="top-left" />
-      <OrbitControls onChange={handleControlsChange} />
+      <OrbitControls />
 
       <SoftShadows size={10} samples={35} focus={5} />
       <Models />
