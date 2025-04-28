@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { GLTFResult } from "types/types";
 import { useSignStore } from "./stores/useSignStore";
 import Player from "./Player";
+import { RigidBody } from "@react-three/rapier";
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;
@@ -22,99 +23,101 @@ export default function Models() {
           scale={[-12.922, -6.923, -0.422]}
           userData={{ name: "gaming" }}
         >
-          <mesh
-            name="Cube044"
-            castShadow
-            geometry={nodes.Cube044.geometry}
-            material={materials["tv frame"]}
-          />
-          <mesh
-            name="Cube044_1"
-            castShadow
-            geometry={nodes.Cube044_1.geometry}
-            material={materials.tvscreen}
-          />
-          <mesh
-            name="Cube044_2"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_2.geometry}
-            material={materials["tv stand"]}
-          />
-          <mesh
-            name="Cube044_3"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_3.geometry}
-            material={materials.coffetable}
-          />
-          <mesh
-            name="Cube044_4"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_4.geometry}
-            material={materials.coffeetable2}
-          />
-          <mesh
-            name="Cube044_5"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_5.geometry}
-            material={materials.couch}
-          />
-          <mesh
-            name="Cube044_6"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_6.geometry}
-            material={materials["couch 2"]}
-          />
-          <mesh
-            name="Cube044_7"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_7.geometry}
-            material={materials.ps4}
-          />
-          <mesh
-            name="Cube044_8"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_8.geometry}
-            material={materials.ps5}
-          />
-          <mesh
-            name="Cube044_9"
-            castShadow
-            geometry={nodes.Cube044_9.geometry}
-            material={materials.ps5sides}
-          />
-          <mesh
-            name="Cube044_10"
-            castShadow
-            geometry={nodes.Cube044_10.geometry}
-            material={materials.ps5controller}
-          />
-          <mesh
-            name="Cube044_11"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_11.geometry}
-            material={materials.controllerin}
-          />
-          <mesh
-            name="Cube044_12"
-            castShadow
-            geometry={nodes.Cube044_12.geometry}
-            material={materials.switchdock}
-          />
-          <mesh
-            name="Cube044_13"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_13.geometry}
-            material={materials.switchscreen}
-          />
+          <RigidBody type="fixed" restitution={0.2} friction={0}>
+            <mesh
+              name="Cube044"
+              castShadow
+              geometry={nodes.Cube044.geometry}
+              material={materials["tv frame"]}
+            />
+            <mesh
+              name="Cube044_1"
+              castShadow
+              geometry={nodes.Cube044_1.geometry}
+              material={materials.tvscreen}
+            />
+            <mesh
+              name="Cube044_2"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_2.geometry}
+              material={materials["tv stand"]}
+            />
+            <mesh
+              name="Cube044_3"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_3.geometry}
+              material={materials.coffetable}
+            />
+            <mesh
+              name="Cube044_4"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_4.geometry}
+              material={materials.coffeetable2}
+            />
+            <mesh
+              name="Cube044_5"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_5.geometry}
+              material={materials.couch}
+            />
+            <mesh
+              name="Cube044_6"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_6.geometry}
+              material={materials["couch 2"]}
+            />
+            <mesh
+              name="Cube044_7"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_7.geometry}
+              material={materials.ps4}
+            />
+            <mesh
+              name="Cube044_8"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_8.geometry}
+              material={materials.ps5}
+            />
+            <mesh
+              name="Cube044_9"
+              castShadow
+              geometry={nodes.Cube044_9.geometry}
+              material={materials.ps5sides}
+            />
+            <mesh
+              name="Cube044_10"
+              castShadow
+              geometry={nodes.Cube044_10.geometry}
+              material={materials.ps5controller}
+            />
+            <mesh
+              name="Cube044_11"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_11.geometry}
+              material={materials.controllerin}
+            />
+            <mesh
+              name="Cube044_12"
+              castShadow
+              geometry={nodes.Cube044_12.geometry}
+              material={materials.switchdock}
+            />
+            <mesh
+              name="Cube044_13"
+              castShadow
+              receiveShadow
+              geometry={nodes.Cube044_13.geometry}
+              material={materials.switchscreen}
+            />
+          </RigidBody>
         </group>
         <group
           name="sign"
