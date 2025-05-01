@@ -24,6 +24,7 @@ createRoot(document.getElementById("root")!).render(
         fov: 45,
         near: 0.1,
         far: 2000,
+        position: [117.36, 2, 113.657],
       }}
     >
       <color args={["#5c9fe6"]} attach="background" />

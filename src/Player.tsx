@@ -6,12 +6,13 @@ import * as THREE from "three";
 import { gsap } from "gsap";
 import { Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
+import { CapsuleCollider, RigidBody } from "@react-three/rapier";
 
 const character = {
   moveDistance: 5,
   moveDuration: 0.23,
   jumpHeight: 2,
-  initialPosition: new Vector3(117.36, -0.667, 113.657),
+  initialPosition: new Vector3(117.36, -0.006, 113.657),
   initialRotation: new Vector3(0, -0.573, 0),
 };
 
@@ -22,6 +23,7 @@ type PlayerProps = {
 
 const Player = ({ nodes, materials }: PlayerProps) => {
   const playerRef = useRef<THREE.Group>(null!);
+  const rigidBodyRef = useRef(null!);
   const [subscribeKeys, getKeys] = useKeyboardControls();
 
   const currentAnimationRef = useRef<gsap.core.Timeline | null>(null);
@@ -96,7 +98,7 @@ const Player = ({ nodes, materials }: PlayerProps) => {
         break;
       case "right":
         newPosition.x += character.moveDistance;
-        newRotation.y = Math.PI;
+        newRotation.y = -Math.PI;
         break;
       default:
         return;
@@ -235,85 +237,99 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     return () => unsubscribe();
   }, [subscribeKeys]);
   return (
-    <group
-      ref={playerRef}
-      name="boots"
-      position={[117.36, -0.667, 113.657]}
+    <RigidBody
+      ref={rigidBodyRef}
+      type="dynamic"
+      colliders={false} // disables auto colliders
+      position={[117.36, 2, 113.657]}
       rotation={[0, -0.573, 0]}
-      scale={[2.276, 3.736, 2.879]}
-      userData={{ name: "boots" }}
+      enabledRotations={[false, true, false]} // lock X/Z rotation for upright character
+      mass={1}
+      friction={0.5}
+      restitution={0.1}
+      linearDamping={0.9}
+      angularDamping={1}
     >
-      <mesh
-        name="Cube017"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017.geometry}
-        material={materials.boots}
-      />
-      <mesh
-        name="Cube017_1"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_1.geometry}
-        material={materials.button}
-      />
-      <mesh
-        name="Cube017_2"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_2.geometry}
-        material={materials.cloak}
-      />
-      <mesh
-        name="Cube017_3"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_3.geometry}
-        material={materials.bezel}
-      />
-      <mesh
-        name="Cube017_4"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_4.geometry}
-        material={materials.Skin}
-      />
-      <mesh
-        name="Cube017_5"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_5.geometry}
-        material={materials.pants}
-      />
-      <mesh
-        name="Cube017_6"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_6.geometry}
-        material={materials.hair}
-      />
-      <mesh
-        name="Cube017_7"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_7.geometry}
-        material={materials.buckle}
-      />
-      <mesh
-        name="Cube017_8"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_8.geometry}
-        material={materials.eye}
-      />
-      <mesh
-        name="Cube017_9"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube017_9.geometry}
-        material={materials.pupil}
-      />
-    </group>
+      <CapsuleCollider args={[3, 2.5]} position={[0, 1.5, 0]} />
+      <group
+        name="boots"
+        position={[0, -3, 0]}
+        rotation={[0, -0.573, 0]}
+        scale={[2.276, 3.736, 2.879]}
+        userData={{ name: "boots" }}
+      >
+        <mesh
+          name="Cube017"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017.geometry}
+          material={materials.boots}
+        />
+        <mesh
+          name="Cube017_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_1.geometry}
+          material={materials.button}
+        />
+        <mesh
+          name="Cube017_2"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_2.geometry}
+          material={materials.cloak}
+        />
+        <mesh
+          name="Cube017_3"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_3.geometry}
+          material={materials.bezel}
+        />
+        <mesh
+          name="Cube017_4"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_4.geometry}
+          material={materials.Skin}
+        />
+        <mesh
+          name="Cube017_5"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_5.geometry}
+          material={materials.pants}
+        />
+        <mesh
+          name="Cube017_6"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_6.geometry}
+          material={materials.hair}
+        />
+        <mesh
+          name="Cube017_7"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_7.geometry}
+          material={materials.buckle}
+        />
+        <mesh
+          name="Cube017_8"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_8.geometry}
+          material={materials.eye}
+        />
+        <mesh
+          name="Cube017_9"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017_9.geometry}
+          material={materials.pupil}
+        />
+      </group>
+    </RigidBody>
   );
 };
 

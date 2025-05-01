@@ -9,6 +9,7 @@ import Models from "./Models.tsx";
 import { Perf } from "r3f-perf";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { Physics } from "@react-three/rapier";
 
 function Experience() {
   const lightRef = useRef<THREE.DirectionalLight>(null!);
@@ -82,7 +83,9 @@ function Experience() {
       <OrbitControls />
 
       <SoftShadows size={10} samples={35} focus={5} />
-      <Models />
+      <Physics debug>
+        <Models />
+      </Physics>
       <directionalLight
         ref={lightRef}
         castShadow={castShadow}

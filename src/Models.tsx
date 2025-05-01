@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { GLTFResult } from "types/types";
 import { useSignStore } from "./stores/useSignStore";
 import Player from "./Player";
-import { RigidBody } from "@react-three/rapier";
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;
@@ -15,260 +15,278 @@ export default function Models() {
 
   return (
     <group dispose={null}>
-      <group name="Scene">
-        <group
-          name="gaming"
-          position={[93.36, 13.588, -109.787]}
-          rotation={[0, 0.589, -Math.PI]}
-          scale={[-12.922, -6.923, -0.422]}
-          userData={{ name: "gaming" }}
-        >
-          <RigidBody type="fixed" restitution={0.2} friction={0}>
-            <mesh
-              name="Cube044"
-              castShadow
-              geometry={nodes.Cube044.geometry}
-              material={materials["tv frame"]}
-            />
-            <mesh
-              name="Cube044_1"
-              castShadow
-              geometry={nodes.Cube044_1.geometry}
-              material={materials.tvscreen}
-            />
-            <mesh
-              name="Cube044_2"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_2.geometry}
-              material={materials["tv stand"]}
-            />
-            <mesh
-              name="Cube044_3"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_3.geometry}
-              material={materials.coffetable}
-            />
-            <mesh
-              name="Cube044_4"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_4.geometry}
-              material={materials.coffeetable2}
-            />
-            <mesh
-              name="Cube044_5"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_5.geometry}
-              material={materials.couch}
-            />
-            <mesh
-              name="Cube044_6"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_6.geometry}
-              material={materials["couch 2"]}
-            />
-            <mesh
-              name="Cube044_7"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_7.geometry}
-              material={materials.ps4}
-            />
-            <mesh
-              name="Cube044_8"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_8.geometry}
-              material={materials.ps5}
-            />
-            <mesh
-              name="Cube044_9"
-              castShadow
-              geometry={nodes.Cube044_9.geometry}
-              material={materials.ps5sides}
-            />
-            <mesh
-              name="Cube044_10"
-              castShadow
-              geometry={nodes.Cube044_10.geometry}
-              material={materials.ps5controller}
-            />
-            <mesh
-              name="Cube044_11"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_11.geometry}
-              material={materials.controllerin}
-            />
-            <mesh
-              name="Cube044_12"
-              castShadow
-              geometry={nodes.Cube044_12.geometry}
-              material={materials.switchdock}
-            />
-            <mesh
-              name="Cube044_13"
-              castShadow
-              receiveShadow
-              geometry={nodes.Cube044_13.geometry}
-              material={materials.switchscreen}
-            />
-          </RigidBody>
-        </group>
-        <group
-          name="sign"
-          position={[-33.194, 7.644, -107.146]}
-          rotation={[0, 0.17, 0]}
-          scale={[6.045, 4.167, 0.47]}
-          userData={{ name: "sign" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("marble");
-          }}
-        >
+      <group
+        name="gaming"
+        position={[99.29, 4.898, -100.911]}
+        rotation={[0, 0.589, -Math.PI]}
+        scale={[-12.922, -6.923, -0.422]}
+        userData={{ name: "gaming" }}
+      >
+        <RigidBody type="fixed">
           <mesh
-            name="Cube015"
+            name="Cube044"
             castShadow
-            geometry={nodes.Cube015.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044.geometry}
+            material={materials["tv frame"]}
           />
           <mesh
-            name="Cube015_1"
+            name="Cube044_1"
             castShadow
-            geometry={nodes.Cube015_1.geometry}
-            material={materials.sign4}
-          />
-        </group>
-        <group
-          name="sign001"
-          position={[30.905, 7.644, -107.543]}
-          rotation={[0, 0.17, 0]}
-          scale={[6.045, 4.167, 0.47]}
-          userData={{ name: "sign.001" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("chatgpt");
-          }}
-        >
-          <mesh
-            name="Cube006"
-            castShadow
-            geometry={nodes.Cube006.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044_1.geometry}
+            material={materials.tvscreen}
           />
           <mesh
-            name="Cube006_1"
+            name="Cube044_2"
             castShadow
-            geometry={nodes.Cube006_1.geometry}
-            material={materials.sign3}
-          />
-        </group>
-        <group
-          name="sign002"
-          position={[108.32, 7.644, -27.025]}
-          rotation={[0, -0.648, 0]}
-          scale={[6.045, 4.167, 0.47]}
-          userData={{ name: "sign.002" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("solarite");
-          }}
-        >
-          <mesh
-            name="Cube007"
-            castShadow
-            geometry={nodes.Cube007.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044_2.geometry}
+            material={materials["tv stand"]}
           />
           <mesh
-            name="Cube007_1"
+            name="Cube044_3"
             castShadow
-            geometry={nodes.Cube007_1.geometry}
-            material={materials.sign2}
-          />
-        </group>
-        <group
-          name="sign003"
-          position={[109.451, 7.644, 39.836]}
-          rotation={[0, -0.5, 0]}
-          scale={[6.045, 4.167, 0.47]}
-          userData={{ name: "sign.003" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("portal");
-          }}
-        >
-          <mesh
-            name="Cube008"
-            castShadow
-            geometry={nodes.Cube008.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044_3.geometry}
+            material={materials.coffetable}
           />
           <mesh
-            name="Cube008_1"
+            name="Cube044_4"
             castShadow
-            geometry={nodes.Cube008_1.geometry}
-            material={materials.sign1}
-          />
-        </group>
-        <group
-          name="sign004"
-          position={[-112.336, 6.672, -36.044]}
-          rotation={[0, 0.939, 0]}
-          scale={[7.755, 5.346, 0.603]}
-          userData={{ name: "sign.004" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("spotlight");
-          }}
-        >
-          <mesh
-            name="Cube009"
-            castShadow
-            geometry={nodes.Cube009.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044_4.geometry}
+            material={materials.coffeetable2}
           />
           <mesh
-            name="Cube009_1"
+            name="Cube044_5"
             castShadow
-            geometry={nodes.Cube009_1.geometry}
-            material={materials.sign5}
-          />
-        </group>
-        <group
-          name="sign005"
-          position={[-107.396, 7.644, 47.283]}
-          rotation={[0, 1.001, 0]}
-          scale={[6.045, 4.167, 0.47]}
-          userData={{ name: "sign.005" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setSignTitle("awwwards");
-          }}
-        >
-          <mesh
-            name="Cube010"
-            castShadow
-            geometry={nodes.Cube010.geometry}
-            material={materials.Material}
+            receiveShadow
+            geometry={nodes.Cube044_5.geometry}
+            material={materials.couch}
           />
           <mesh
-            name="Cube010_1"
+            name="Cube044_6"
             castShadow
-            geometry={nodes.Cube010_1.geometry}
-            material={materials.sign6}
+            receiveShadow
+            geometry={nodes.Cube044_6.geometry}
+            material={materials["couch 2"]}
           />
-        </group>
-        <group
-          name="level"
-          position={[-71.214, 1.593, -99.663]}
-          scale={[0.15, 0.15, 1.51]}
-          userData={{ name: "level" }}
-        >
+          <mesh
+            name="Cube044_7"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_7.geometry}
+            material={materials.ps4}
+          />
+          <mesh
+            name="Cube044_8"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_8.geometry}
+            material={materials.ps5}
+          />
+          <mesh
+            name="Cube044_9"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_9.geometry}
+            material={materials.ps5sides}
+          />
+          <mesh
+            name="Cube044_10"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_10.geometry}
+            material={materials.ps5controller}
+          />
+          <mesh
+            name="Cube044_11"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_11.geometry}
+            material={materials.controllerin}
+          />
+          <mesh
+            name="Cube044_12"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_12.geometry}
+            material={materials.switchdock}
+          />
+          <mesh
+            name="Cube044_13"
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube044_13.geometry}
+            material={materials.switchscreen}
+          />
+          <CuboidCollider args={[1, 1, 42]} position={[0, 0, -10]} />
+        </RigidBody>
+      </group>
+      <group
+        name="sign"
+        position={[-33.194, 7.644, -107.146]}
+        rotation={[0, 0.17, 0]}
+        scale={[6.045, 4.167, 0.47]}
+        userData={{ name: "sign" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("marble");
+        }}
+      >
+        <mesh
+          name="Cube015"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube015.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube015_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube015_1.geometry}
+          material={materials.sign4}
+        />
+      </group>
+      <group
+        name="sign001"
+        position={[30.905, 7.644, -107.543]}
+        rotation={[0, 0.17, 0]}
+        scale={[6.045, 4.167, 0.47]}
+        userData={{ name: "sign.001" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("chatgpt");
+        }}
+      >
+        <mesh
+          name="Cube006"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube006.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube006_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube006_1.geometry}
+          material={materials.sign3}
+        />
+      </group>
+      <group
+        name="sign002"
+        position={[108.32, 7.644, -27.025]}
+        rotation={[0, -0.648, 0]}
+        scale={[6.045, 4.167, 0.47]}
+        userData={{ name: "sign.002" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("solarite");
+        }}
+      >
+        <mesh
+          name="Cube007"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube007.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube007_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube007_1.geometry}
+          material={materials.sign2}
+        />
+      </group>
+      <group
+        name="sign003"
+        position={[109.451, 7.644, 39.836]}
+        rotation={[0, -0.5, 0]}
+        scale={[6.045, 4.167, 0.47]}
+        userData={{ name: "sign.003" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("portal");
+        }}
+      >
+        <mesh
+          name="Cube008"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube008.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube008_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube008_1.geometry}
+          material={materials.sign1}
+        />
+      </group>
+      <group
+        name="sign004"
+        position={[-112.336, 6.672, -36.044]}
+        rotation={[0, 0.939, 0]}
+        scale={[7.755, 5.346, 0.603]}
+        userData={{ name: "sign.004" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("spotlight");
+        }}
+      >
+        <mesh
+          name="Cube009"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube009.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube009_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube009_1.geometry}
+          material={materials.sign5}
+        />
+      </group>
+      <group
+        name="sign005"
+        position={[-107.396, 7.644, 47.283]}
+        rotation={[0, 1.001, 0]}
+        scale={[6.045, 4.167, 0.47]}
+        userData={{ name: "sign.005" }}
+        onClick={() => {
+          setIsModalOpen(true);
+          setSignTitle("awwwards");
+        }}
+      >
+        <mesh
+          name="Cube010"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube010.geometry}
+          material={materials.Material}
+        />
+        <mesh
+          name="Cube010_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube010_1.geometry}
+          material={materials.sign6}
+        />
+      </group>
+      <group
+        name="level"
+        position={[0.303, -0.135, -0.077]}
+        scale={[0.15, 0.15, 1.51]}
+        userData={{ name: "level" }}
+      >
+        <RigidBody type="fixed">
           <mesh
             name="Cube016"
             castShadow
@@ -286,47 +304,48 @@ export default function Models() {
           <mesh
             name="Cube016_2"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_2.geometry}
             material={materials.signborder}
           />
           <mesh
             name="Cube016_3"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_3.geometry}
             material={materials.signcolor}
           />
           <mesh
             name="Cube016_4"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_4.geometry}
             material={materials.text}
           />
           <mesh
             name="Cube016_5"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_5.geometry}
             material={materials.signstand}
           />
           <mesh
             name="Cube016_6"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_6.geometry}
             material={materials.signstandbase}
           />
           <mesh
             name="Cube016_7"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_7.geometry}
             material={materials.grass}
-          >
-            <meshStandardMaterial
-              color="#4CAF50"
-              roughness={0.8}
-              metalness={0.1}
-            />
-          </mesh>
+          />
           <mesh
             name="Cube016_8"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_8.geometry}
             material={materials.tarmac}
@@ -340,6 +359,7 @@ export default function Models() {
           />
           <mesh
             name="Cube016_10"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_10.geometry}
             material={materials["road paint"]}
@@ -361,11 +381,13 @@ export default function Models() {
           <mesh
             name="Cube016_13"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_13.geometry}
             material={materials.fence}
           />
           <mesh
             name="Cube016_14"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_14.geometry}
             material={materials.zengarden}
@@ -373,17 +395,20 @@ export default function Models() {
           <mesh
             name="Cube016_15"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_15.geometry}
             material={materials.gardenrocks}
           />
           <mesh
             name="Cube016_16"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_16.geometry}
             material={materials["grass.001"]}
           />
           <mesh
             name="Cube016_17"
+            castShadow
             receiveShadow
             geometry={nodes.Cube016_17.geometry}
             material={materials.pond}
@@ -405,154 +430,163 @@ export default function Models() {
           <mesh
             name="Cube016_20"
             castShadow
+            receiveShadow
             geometry={nodes.Cube016_20.geometry}
             material={materials.gardenleaves}
           />
-        </group>
-        <group
-          name="dumbell001"
-          position={[-91.582, 0.649, 94.462]}
-          rotation={[0, 0.74, Math.PI / 2]}
-          scale={[0.238, 0.815, 0.238]}
-          userData={{ name: "dumbell.001" }}
-        >
-          <mesh
-            name="Cylinder010"
-            castShadow
-            geometry={nodes.Cylinder010.geometry}
-            material={materials.dumbell}
-          />
-          <mesh
-            name="Cylinder010_1"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder010_1.geometry}
-            material={materials.gymbenchstand}
-          />
-          <mesh
-            name="Cylinder010_2"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder010_2.geometry}
-            material={materials.gymbench}
-          />
-          <mesh
-            name="Cylinder010_3"
-            receiveShadow
-            geometry={nodes.Cylinder010_3.geometry}
-            material={materials["yoga mat"]}
-          />
-          <mesh
-            name="Cylinder010_4"
-            castShadow
-            geometry={nodes.Cylinder010_4.geometry}
-            material={materials["pullup bar"]}
-          />
-        </group>
-        <group
-          name="ichirakugas"
-          position={[-82.07, 2.567, -111.898]}
-          rotation={[-Math.PI, 1.075, -Math.PI]}
-          scale={[1.395, 3.108, 1.395]}
-          userData={{ name: "ichirakugas" }}
-        >
-          <mesh
-            name="Cylinder004"
-            receiveShadow
-            geometry={nodes.Cylinder004.geometry}
-            material={materials["pullup bar"]}
-          />
-          <mesh
-            name="Cylinder004_1"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_1.geometry}
-            material={materials.roofichiraku}
-          />
-          <mesh
-            name="Cylinder004_2"
-            geometry={nodes.Cylinder004_2.geometry}
-            material={materials.counterichiraku}
-          />
-          <mesh
-            name="Cylinder004_3"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_3.geometry}
-            material={materials.ichirakuwalls}
-          />
-          <mesh
-            name="Cylinder004_4"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_4.geometry}
-            material={materials.irchiraku1}
-          />
-          <mesh
-            name="Cylinder004_5"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_5.geometry}
-            material={materials.ichiraku2}
-          />
-          <mesh
-            name="Cylinder004_6"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_6.geometry}
-            material={materials.ichiraku3}
-          />
-          <mesh
-            name="Cylinder004_7"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_7.geometry}
-            material={materials.ichiraku4}
-          />
-          <mesh
-            name="Cylinder004_8"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_8.geometry}
-            material={materials.ichiraku5}
-          />
-          <mesh
-            name="Cylinder004_9"
-            castShadow
-            geometry={nodes.Cylinder004_9.geometry}
-            material={materials.inchirakutower}
-          />
-          <mesh
-            name="Cylinder004_10"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_10.geometry}
-            material={materials.ichirkausignthread}
-          />
-          <mesh
-            name="Cylinder004_11"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_11.geometry}
-            material={materials.ichirakusignthing}
-          />
-          <mesh
-            name="Cylinder004_12"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_12.geometry}
-            material={materials.ichirakusignthingplain}
-          />
-          <mesh
-            name="Cylinder004_13"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder004_13.geometry}
-            material={materials["Material.001"]}
-          />
-        </group>
-        <Player nodes={nodes} materials={materials} />
+          <CuboidCollider args={[1, 1, 1]} />
+        </RigidBody>
       </group>
+      <group
+        name="dumbell001"
+        position={[-107.045, 3.813, 101.082]}
+        rotation={[0, 0.74, Math.PI / 2]}
+        scale={[0.238, 0.815, 0.238]}
+        userData={{ name: "dumbell.001" }}
+      >
+        <mesh
+          name="Cylinder010"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder010.geometry}
+          material={materials.dumbell}
+        />
+        <mesh
+          name="Cylinder010_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder010_1.geometry}
+          material={materials.gymbenchstand}
+        />
+        <mesh
+          name="Cylinder010_2"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder010_2.geometry}
+          material={materials.gymbench}
+        />
+        <mesh
+          name="Cylinder010_3"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder010_3.geometry}
+          material={materials["yoga mat"]}
+        />
+        <mesh
+          name="Cylinder010_4"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder010_4.geometry}
+          material={materials["pullup bar"]}
+        />
+      </group>
+      <group
+        name="ichirakugas"
+        position={[-97.901, 5.402, -97.523]}
+        rotation={[-Math.PI, 1.075, -Math.PI]}
+        scale={[1.395, 3.108, 1.395]}
+        userData={{ name: "ichirakugas" }}
+      >
+        <mesh
+          name="Cylinder004"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004.geometry}
+          material={materials["pullup bar"]}
+        />
+        <mesh
+          name="Cylinder004_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_1.geometry}
+          material={materials.roofichiraku}
+        />
+        <mesh
+          name="Cylinder004_2"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_2.geometry}
+          material={materials.counterichiraku}
+        />
+        <mesh
+          name="Cylinder004_3"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_3.geometry}
+          material={materials.ichirakuwalls}
+        />
+        <mesh
+          name="Cylinder004_4"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_4.geometry}
+          material={materials.irchiraku1}
+        />
+        <mesh
+          name="Cylinder004_5"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_5.geometry}
+          material={materials.ichiraku2}
+        />
+        <mesh
+          name="Cylinder004_6"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_6.geometry}
+          material={materials.ichiraku3}
+        />
+        <mesh
+          name="Cylinder004_7"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_7.geometry}
+          material={materials.ichiraku4}
+        />
+        <mesh
+          name="Cylinder004_8"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_8.geometry}
+          material={materials.ichiraku5}
+        />
+        <mesh
+          name="Cylinder004_9"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_9.geometry}
+          material={materials.inchirakutower}
+        />
+        <mesh
+          name="Cylinder004_10"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_10.geometry}
+          material={materials.ichirkausignthread}
+        />
+        <mesh
+          name="Cylinder004_11"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_11.geometry}
+          material={materials.ichirakusignthing}
+        />
+        <mesh
+          name="Cylinder004_12"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_12.geometry}
+          material={materials.ichirakusignthingplain}
+        />
+        <mesh
+          name="Cylinder004_13"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cylinder004_13.geometry}
+          material={materials["Material.001"]}
+        />
+      </group>
+      <Player nodes={nodes} materials={materials} />
     </group>
   );
 }
