@@ -1,5 +1,5 @@
 import { useKeyboardControls } from "@react-three/drei";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GLTFResult } from "types/types";
 import { useRef } from "react";
 import * as THREE from "three";
