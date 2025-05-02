@@ -1,18 +1,23 @@
 import { useKeyboardControls } from "@react-three/drei";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GLTFResult } from "types/types";
 import { useRef } from "react";
 import * as THREE from "three";
-import { gsap } from "gsap";
 import { Vector3 } from "three";
-import { useFrame } from "@react-three/fiber";
-import { CapsuleCollider, RigidBody } from "@react-three/rapier";
+import { useFrame, useThree } from "@react-three/fiber";
+import {
+  CapsuleCollider,
+  RapierRigidBody,
+  RigidBody,
+  useRapier,
+} from "@react-three/rapier";
+
+const MOVE_SPEED = 5; // Adjust as needed
+const JUMP_FORCE = 8; // Adjust as needed
+const ROTATION_SPEED = 5; // How fast the character turns
 
 const character = {
-  moveDistance: 5,
-  moveDuration: 0.23,
-  jumpHeight: 2,
-  initialPosition: new Vector3(117.36, -0.006, 113.657),
+  initialPosition: new Vector3(117.36, 4, 113.657), // Start slightly higher for spawn
   initialRotation: new Vector3(0, -0.573, 0),
 };
 
@@ -22,239 +27,114 @@ type PlayerProps = {
 };
 
 const Player = ({ nodes, materials }: PlayerProps) => {
-  const playerRef = useRef<THREE.Group>(null!);
-  const rigidBodyRef = useRef(null!);
+  const playerMeshRef = useRef<THREE.Group>(null!); // Ref for the visual mesh group
+  const rigidBodyRef = useRef<RapierRigidBody>(null!); // Ref for the physics body
   const [subscribeKeys, getKeys] = useKeyboardControls();
+  const { camera } = useThree(); // Get the camera
+  const { rapier, world } = useRapier();
 
-  const currentAnimationRef = useRef<gsap.core.Timeline | null>(null);
-  const isMovingRef = useRef(false);
-  const currentDirectionRef = useRef<string | null>(null);
+  // --- Camera Offset ---
+  const cameraOffset = useRef(new THREE.Vector3(0, 8, 15)); // Adjust as needed (x, y, z from player)
+  const smoothTime = 0.1; // Camera smoothing factor
 
-  // Handle continuous movement with useFrame
-  useFrame(() => {
-    if (!playerRef.current) return;
+  const jump = () => {
+    const origin = rigidBodyRef.current.translation();
+    origin.y -= 0.31;
+    const direction = { x: 0, y: -1, z: 0 };
+    const ray = new rapier.Ray(origin, direction);
+    const hit = world.castRay(ray, 10, true);
 
-    const { forward, backward, left, right } = getKeys();
-
-    // If no keys are pressed, reset direction tracking
-    if (!forward && !backward && !left && !right) {
-      currentDirectionRef.current = null;
-      return;
-    }
-
-    // Don't process if we're already moving in this direction
-    const newDirection = forward
-      ? "forward"
-      : backward
-      ? "backward"
-      : left
-      ? "left"
-      : right
-      ? "right"
-      : null;
-
-    // if (newDirection === currentDirectionRef.current) {
-    //   return;
-    // }
-
-    // If we have an ongoing animation for a different direction, kill it
-    if (
-      currentAnimationRef.current &&
-      newDirection !== currentDirectionRef.current
-    ) {
-      currentAnimationRef.current.kill();
-      currentAnimationRef.current = null;
-      isMovingRef.current = false;
-    }
-
-    if (isMovingRef.current) return;
-
-    // Set the new direction and start movement
-    currentDirectionRef.current = newDirection;
-    moveCharacter(newDirection);
-  });
-
-  const moveCharacter = (direction: string | null) => {
-    if (!playerRef.current || !direction || isMovingRef.current) return;
-
-    isMovingRef.current = true;
-    const newPosition = playerRef.current.position.clone();
-    const newRotation = new THREE.Euler().copy(playerRef.current.rotation);
-    const groundLevel = character.initialPosition.y;
-
-    // Determine movement based on direction
-    switch (direction) {
-      case "forward":
-        newPosition.z -= character.moveDistance;
-        newRotation.y = -Math.PI / 2;
-        break;
-      case "backward":
-        newPosition.z += character.moveDistance;
-        newRotation.y = Math.PI / 2;
-        break;
-      case "left":
-        newPosition.x -= character.moveDistance;
-        newRotation.y = 0;
-        break;
-      case "right":
-        newPosition.x += character.moveDistance;
-        newRotation.y = -Math.PI;
-        break;
-      default:
-        return;
-    }
-    newPosition.y = groundLevel;
-
-    // Create animation timeline
-    const tl = gsap.timeline({
-      onComplete: () => {
-        isMovingRef.current = false;
-        currentAnimationRef.current = null;
-
-        // Immediately trigger next movement if key is still pressed
-        const keys = getKeys();
-        const nextDirection = keys.forward
-          ? "forward"
-          : keys.backward
-          ? "backward"
-          : keys.left
-          ? "left"
-          : keys.right
-          ? "right"
-          : null;
-
-        if (nextDirection && nextDirection !== direction) {
-          currentDirectionRef.current = nextDirection;
-          moveCharacter(nextDirection);
-        }
-      },
-    });
-
-    // Store timeline reference for potential interruption
-    currentAnimationRef.current = tl;
-    if (Math.abs(playerRef.current.position.y - groundLevel) > 0.01) {
-      tl.to(
-        playerRef.current.position,
-        {
-          y: groundLevel,
-          duration: 0,
-          ease: "power2.out",
-        },
-        0
-      );
-    }
-
-    // Animate position
-    tl.to(
-      playerRef.current.position,
-      {
-        x: newPosition.x,
-        y: newPosition.y,
-        z: newPosition.z,
-        duration: character.moveDuration,
-        ease: "power1.out",
-      },
-      0
-    );
-
-    // Animate rotation simultaneously (slightly faster)
-    tl.to(
-      playerRef.current.rotation,
-      {
-        y: newRotation.y,
-        duration: character.moveDuration * 0.6,
-        ease: "power1.out",
-      },
-      0
-    );
-    tl.to(
-      playerRef.current.position,
-      {
-        y: character.jumpHeight,
-        duration: character.moveDuration / 2,
-        ease: "power1.out",
-        yoyo: true,
-        repeat: 1,
-        onComplete: () => {
-          // Ensure we end at ground level
-          if (playerRef.current) {
-            playerRef.current.position.y = groundLevel;
-          }
-        },
-      },
-      0
-    );
+    if (hit && hit.timeOfImpact < 0.15)
+      rigidBodyRef.current.setTranslation({ x: 0, y: 0.5, z: 0 }, true);
   };
 
+  useFrame((state, delta) => {
+    const { forward, backward, left, right } = getKeys();
+
+    const translate = rigidBodyRef.current.translation();
+    const rotate = playerMeshRef.current.rotation.clone();
+
+    if (forward) {
+      translate.z -= MOVE_SPEED;
+      rotate.y = -Math.PI / 2;
+    }
+    if (backward) {
+      translate.z += MOVE_SPEED;
+      rotate.y = Math.PI / 2;
+    }
+    if (left) {
+      translate.x -= MOVE_SPEED;
+      rotate.y = 0;
+    }
+    if (right) {
+      translate.x += MOVE_SPEED;
+      rotate.y = -Math.PI;
+    }
+
+    rigidBodyRef.current.setTranslation(
+      { x: translate.x, y: translate.y, z: translate.z },
+      true
+    );
+    playerMeshRef.current.rotation.set(rotate.x, rotate.y, rotate.z);
+
+    // --- Camera Follow ---
+    const playerPosition = rigidBodyRef.current.translation();
+    const desiredCameraPosition = new THREE.Vector3()
+      .copy(playerPosition)
+      .add(cameraOffset.current);
+    camera.position.lerp(desiredCameraPosition, smoothTime);
+    const lookAtPosition = new THREE.Vector3().copy(playerPosition);
+    lookAtPosition.y += 1.0;
+    camera.lookAt(lookAtPosition);
+  });
+  // --- Respawn Logic (Example) ---
   useEffect(() => {
     const unsubscribe = subscribeKeys(
       (state) => state.respawn,
       (respawn) => {
-        if (respawn && playerRef.current) {
-          // Kill any ongoing animations
-          if (currentAnimationRef.current) {
-            currentAnimationRef.current.kill();
-            currentAnimationRef.current = null;
-          }
-
-          isMovingRef.current = true;
-          currentDirectionRef.current = null;
-
-          // Create respawn animation
-          const tl = gsap.timeline({
-            onComplete: () => {
-              isMovingRef.current = false;
-            },
-          });
-
-          // Store timeline reference
-          currentAnimationRef.current = tl;
-
-          // Animate position and rotation
-          tl.to(playerRef.current.position, {
-            x: character.initialPosition.x,
-            y: character.initialPosition.y,
-            z: character.initialPosition.z,
-            duration: 0.3,
-            ease: "power3.inOut",
-          });
-
-          tl.to(
-            playerRef.current.rotation,
-            {
-              x: character.initialRotation.x,
-              y: character.initialRotation.y,
-              z: character.initialRotation.z,
-              duration: 0.3,
-              ease: "power3.inOut",
-            },
-            0
+        if (respawn && rigidBodyRef.current) {
+          rigidBodyRef.current.setTranslation(character.initialPosition, true);
+          rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+          rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+          // Reset mesh rotation if needed
+          playerMeshRef.current?.rotation.set(
+            character.initialRotation.x,
+            character.initialRotation.y,
+            character.initialRotation.z
           );
         }
       }
     );
-
     return () => unsubscribe();
   }, [subscribeKeys]);
+
   return (
     <RigidBody
       ref={rigidBodyRef}
       type="dynamic"
-      colliders={false} // disables auto colliders
-      position={[117.36, 2, 113.657]}
-      rotation={[0, -0.573, 0]}
-      enabledRotations={[false, true, false]} // lock X/Z rotation for upright character
+      colliders={false} // Use explicit collider below
+      position={character.initialPosition}
+      // rotation={character.initialRotation} // Rotation is handled by mesh now
+      enabledRotations={[false, true, false]} // Allow Y rotation
       mass={1}
       friction={0.5}
       restitution={0.1}
-      linearDamping={0.9}
-      angularDamping={1}
+      linearDamping={0.5} // Some damping to prevent sliding forever
+      angularDamping={0.5}
+      name="player" // Add a name for debugging/identification
     >
-      <CapsuleCollider args={[3, 2.5]} position={[0, 1.5, 0]} />
+      {/* Adjust CapsuleCollider size and position to fit your model */}
+      {/* args: [radius, height_of_cylinder_part] */}
+      {/* position: [x, y, z] offset from RigidBody center */}
+      <CapsuleCollider args={[0.8, 2.0]} position={[0, 2.8, 0]} />
+
+      {/* Group for the visual model - offset it so its feet are near y=0 of the RigidBody */}
       <group
+        ref={playerMeshRef}
         name="boots"
-        position={[0, -3, 0]}
-        rotation={[0, -0.573, 0]}
+        // position={[0, -3.8, 0]} // Adjust Y so feet are near the bottom of the capsule
+        position={[0, -2.8, 0]} // Example: If capsule bottom is at y=0
+        rotation={[0, -0.573, 0]} // Initial visual rotation
         scale={[2.276, 3.736, 2.879]}
         userData={{ name: "boots" }}
       >

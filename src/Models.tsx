@@ -3,8 +3,8 @@ import { useGLTF, useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import { GLTFResult } from "types/types";
 import { useSignStore } from "./stores/useSignStore";
-import Player from "./Player";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
+import Player from "./Player";
 
 export default function Models() {
   const { nodes, materials } = useGLTF("/voxel1.glb") as unknown as GLTFResult;

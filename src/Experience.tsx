@@ -1,9 +1,4 @@
-import {
-  OrbitControls,
-  SoftShadows,
-  useGLTF,
-  useHelper,
-} from "@react-three/drei";
+import { SoftShadows, useGLTF, useHelper } from "@react-three/drei";
 import { useControls } from "leva";
 import Models from "./Models.tsx";
 import { Perf } from "r3f-perf";
@@ -80,7 +75,6 @@ function Experience() {
   return (
     <>
       <Perf position="top-left" />
-      <OrbitControls />
 
       <SoftShadows size={10} samples={35} focus={5} />
       <Physics debug>
