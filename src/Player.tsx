@@ -12,7 +12,7 @@ import {
   useRapier,
 } from "@react-three/rapier";
 
-const MOVE_SPEED = 5; // Adjust as needed
+const MOVE_SPEED = 20; // Adjust as needed
 const JUMP_FORCE = 8; // Adjust as needed
 const ROTATION_SPEED = 5; // How fast the character turns
 
@@ -55,19 +55,19 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     const rotate = playerMeshRef.current.rotation.clone();
 
     if (forward) {
-      translate.z -= MOVE_SPEED;
+      translate.z -= MOVE_SPEED * delta;
       rotate.y = -Math.PI / 2;
     }
     if (backward) {
-      translate.z += MOVE_SPEED;
+      translate.z += MOVE_SPEED * delta;
       rotate.y = Math.PI / 2;
     }
     if (left) {
-      translate.x -= MOVE_SPEED;
+      translate.x -= MOVE_SPEED * delta;
       rotate.y = 0;
     }
     if (right) {
-      translate.x += MOVE_SPEED;
+      translate.x += MOVE_SPEED * delta;
       rotate.y = -Math.PI;
     }
 
@@ -126,14 +126,14 @@ const Player = ({ nodes, materials }: PlayerProps) => {
       {/* Adjust CapsuleCollider size and position to fit your model */}
       {/* args: [radius, height_of_cylinder_part] */}
       {/* position: [x, y, z] offset from RigidBody center */}
-      <CapsuleCollider args={[0.8, 2.0]} position={[0, 2.8, 0]} />
+      <CapsuleCollider args={[2, 2.3]} position={[0, 1, 0]} />
 
       {/* Group for the visual model - offset it so its feet are near y=0 of the RigidBody */}
       <group
         ref={playerMeshRef}
         name="boots"
         // position={[0, -3.8, 0]} // Adjust Y so feet are near the bottom of the capsule
-        position={[0, -2.8, 0]} // Example: If capsule bottom is at y=0
+        position={[0, -4.6, 0]} // Example: If capsule bottom is at y=0
         rotation={[0, -0.573, 0]} // Initial visual rotation
         scale={[2.276, 3.736, 2.879]}
         userData={{ name: "boots" }}
