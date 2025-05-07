@@ -7,6 +7,7 @@ type GroundProps = {
 };
 
 const Ground = ({ nodes, materials }: GroundProps) => {
+  console.log(nodes.Cube016_6.geometry);
   return (
     <group
       name="level"
@@ -56,14 +57,17 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_5.geometry}
         material={materials.signstand}
       />
-      <mesh
-        name="Cube016_6"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube016_6.geometry}
-        material={materials.signstandbase}
-      />
-      <RigidBody type="fixed" colliders="cuboid">
+      <RigidBody type="fixed">
+        <CuboidCollider args={[266, 12.4, 26.35]} position={[-3, 0, -1.6]} />
+        <mesh
+          name="Cube016_6"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube016_6.geometry}
+          material={materials.signstandbase}
+        />
+      </RigidBody>
+      <RigidBody type="fixed" colliders="hull">
         <mesh
           name="Cube016_7"
           castShadow
@@ -81,13 +85,15 @@ const Ground = ({ nodes, materials }: GroundProps) => {
           material={materials.tarmac}
         />
       </RigidBody>
-      <mesh
-        name="Cube016_9"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube016_9.geometry}
-        material={materials["road curb"]}
-      />
+      <RigidBody type="fixed" colliders="hull">
+        <mesh
+          name="Cube016_9"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube016_9.geometry}
+          material={materials["road curb"]}
+        />
+      </RigidBody>
       <mesh
         name="Cube016_10"
         castShadow
@@ -111,16 +117,15 @@ const Ground = ({ nodes, materials }: GroundProps) => {
           material={materials.trunk}
         />
       </RigidBody>
-      <RigidBody type="fixed" colliders="cuboid" scale={[1, 1, 1]}>
-        <mesh
-          name="Cube016_13"
-          castShadow
-          receiveShadow
-          geometry={nodes.Cube016_13.geometry}
-          material={materials.fence}
-        />
-      </RigidBody>
-      <RigidBody type="fixed" colliders="cuboid">
+      <mesh
+        name="Cube016_13"
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube016_13.geometry}
+        material={materials.fence}
+      />
+      <RigidBody type="fixed">
+        <CuboidCollider args={[266, 12.4, 26.35]} position={[-3, 0, -1.6]} />
         <mesh
           name="Cube016_14"
           castShadow
@@ -150,15 +155,13 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_17.geometry}
         material={materials.pond}
       />
-      <RigidBody type="fixed" colliders="cuboid">
-        <mesh
-          name="Cube016_18"
-          castShadow
-          receiveShadow
-          geometry={nodes.Cube016_18.geometry}
-          material={materials.gardenborder}
-        />
-      </RigidBody>
+      <mesh
+        name="Cube016_18"
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube016_18.geometry}
+        material={materials.gardenborder}
+      />
       <mesh
         name="Cube016_19"
         castShadow
