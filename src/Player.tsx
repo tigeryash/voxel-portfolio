@@ -34,8 +34,7 @@ const Player = ({ nodes, materials }: PlayerProps) => {
   const { rapier, world } = useRapier();
 
   // --- Camera Offset ---
-  const cameraOffset = useRef(new THREE.Vector3(0, 8, 15)); // Adjust as needed (x, y, z from player)
-  const smoothTime = 0.1; // Camera smoothing factor
+  const cameraOffset = useRef(new THREE.Vector3(9, 16, 22)); // Adjust as needed (x, y, z from player)
 
   const jump = () => {
     const origin = rigidBodyRef.current.translation();
@@ -82,9 +81,9 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     const desiredCameraPosition = new THREE.Vector3()
       .copy(playerPosition)
       .add(cameraOffset.current);
-    camera.position.lerp(desiredCameraPosition, smoothTime);
+    camera.position.copy(desiredCameraPosition);
     const lookAtPosition = new THREE.Vector3().copy(playerPosition);
-    lookAtPosition.y += 1.0;
+    lookAtPosition.y += 8.0;
     camera.lookAt(lookAtPosition);
   });
   // --- Respawn Logic (Example) ---
