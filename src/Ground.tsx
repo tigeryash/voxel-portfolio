@@ -22,13 +22,15 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016.geometry}
         material={materials.benchframe}
       />
-      <mesh
-        name="Cube016_1"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube016_1.geometry}
-        material={materials.benchwood}
-      />
+      <RigidBody type="fixed" colliders="trimesh">
+        <mesh
+          name="Cube016_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube016_1.geometry}
+          material={materials.benchwood}
+        />
+      </RigidBody>
       <mesh
         name="Cube016_2"
         castShadow
@@ -57,8 +59,7 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_5.geometry}
         material={materials.signstand}
       />
-      <RigidBody type="fixed">
-        <CuboidCollider args={[266, 12.4, 26.35]} position={[-3, 0, -1.6]} />
+      <RigidBody type="fixed" colliders="trimesh">
         <mesh
           name="Cube016_6"
           castShadow
@@ -67,7 +68,7 @@ const Ground = ({ nodes, materials }: GroundProps) => {
           material={materials.signstandbase}
         />
       </RigidBody>
-      <RigidBody type="fixed" colliders="hull">
+      <RigidBody type="fixed" colliders="trimesh">
         <mesh
           name="Cube016_7"
           castShadow
@@ -76,7 +77,7 @@ const Ground = ({ nodes, materials }: GroundProps) => {
           material={materials.grass}
         />
       </RigidBody>
-      <RigidBody type="fixed" colliders="cuboid">
+      <RigidBody type="fixed" colliders="hull">
         <mesh
           name="Cube016_8"
           castShadow
@@ -85,7 +86,7 @@ const Ground = ({ nodes, materials }: GroundProps) => {
           material={materials.tarmac}
         />
       </RigidBody>
-      <RigidBody type="fixed" colliders="hull">
+      <RigidBody type="fixed" colliders="trimesh">
         <mesh
           name="Cube016_9"
           castShadow
@@ -101,6 +102,18 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_10.geometry}
         material={materials["road paint"]}
       />
+      <RigidBody type="fixed" colliders="trimesh">
+        <CuboidCollider args={[10, 30, 85]} position={[840, 36, 0]} />
+      </RigidBody>
+      <RigidBody type="fixed" colliders="trimesh">
+        <CuboidCollider args={[900, 30, 1]} position={[0, 36, 85]} />
+      </RigidBody>
+      <RigidBody type="fixed" colliders="trimesh">
+        <CuboidCollider args={[10, 30, 85]} position={[-830, 36, 0]} />
+      </RigidBody>
+      <RigidBody type="fixed" colliders="trimesh">
+        <CuboidCollider args={[900, 30, 1]} position={[0, 36, -82]} />
+      </RigidBody>
       <mesh
         name="Cube016_11"
         castShadow
@@ -108,15 +121,14 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_11.geometry}
         material={materials.leaves}
       />
-      <RigidBody type="fixed" colliders="cuboid">
-        <mesh
-          name="Cube016_12"
-          castShadow
-          receiveShadow
-          geometry={nodes.Cube016_12.geometry}
-          material={materials.trunk}
-        />
-      </RigidBody>
+
+      <mesh
+        name="Cube016_12"
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube016_12.geometry}
+        material={materials.trunk}
+      />
       <mesh
         name="Cube016_13"
         castShadow
@@ -124,7 +136,7 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_13.geometry}
         material={materials.fence}
       />
-      <RigidBody type="fixed">
+      <RigidBody type="fixed" colliders="trimesh">
         <CuboidCollider args={[266, 12.4, 26.35]} position={[-3, 0, -1.6]} />
         <mesh
           name="Cube016_14"
@@ -162,13 +174,15 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_18.geometry}
         material={materials.gardenborder}
       />
-      <mesh
-        name="Cube016_19"
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube016_19.geometry}
-        material={materials.gardentree}
-      />
+      <RigidBody type="fixed" colliders="trimesh">
+        <mesh
+          name="Cube016_19"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube016_19.geometry}
+          material={materials.gardentree}
+        />
+      </RigidBody>
       <mesh
         name="Cube016_20"
         castShadow
