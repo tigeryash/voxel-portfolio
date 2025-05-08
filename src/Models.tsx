@@ -19,111 +19,111 @@ export default function Models() {
       <group
         name="gaming"
         position={[99.29, 4.898, -100.911]}
-        rotation={[0, 0.589, -Math.PI]}
-        scale={[-12.922, -6.923, -0.422]}
+        rotation={[Math.PI, -0.589, Math.PI]}
+        scale={[12.922, 6.923, 0.422]}
         userData={{ name: "gaming" }}
       >
         <RigidBody type="fixed">
-          <mesh
-            name="Cube044"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044.geometry}
-            material={materials["tv frame"]}
-          />
-          <mesh
-            name="Cube044_1"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_1.geometry}
-            material={materials.tvscreen}
-          />
-          <mesh
-            name="Cube044_2"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_2.geometry}
-            material={materials["tv stand"]}
-          />
-          <mesh
-            name="Cube044_3"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_3.geometry}
-            material={materials.coffetable}
-          />
-          <mesh
-            name="Cube044_4"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_4.geometry}
-            material={materials.coffeetable2}
-          />
-          <mesh
-            name="Cube044_5"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_5.geometry}
-            material={materials.couch}
-          />
-          <mesh
-            name="Cube044_6"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_6.geometry}
-            material={materials["couch 2"]}
-          />
-          <mesh
-            name="Cube044_7"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_7.geometry}
-            material={materials.ps4}
-          />
-          <mesh
-            name="Cube044_8"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_8.geometry}
-            material={materials.ps5}
-          />
-          <mesh
-            name="Cube044_9"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_9.geometry}
-            material={materials.ps5sides}
-          />
-          <mesh
-            name="Cube044_10"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_10.geometry}
-            material={materials.ps5controller}
-          />
-          <mesh
-            name="Cube044_11"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_11.geometry}
-            material={materials.controllerin}
-          />
-          <mesh
-            name="Cube044_12"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_12.geometry}
-            material={materials.switchdock}
-          />
-          <mesh
-            name="Cube044_13"
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube044_13.geometry}
-            material={materials.switchscreen}
-          />
           <CuboidCollider args={[1, 1, 42]} position={[0, 0, -10]} />
         </RigidBody>
+        <mesh
+          name="Cube044"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044.geometry}
+          material={materials["tv frame"]}
+        />
+        <mesh
+          name="Cube044_1"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_1.geometry}
+          material={materials.tvscreen}
+        />
+        <mesh
+          name="Cube044_2"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_2.geometry}
+          material={materials["tv stand"]}
+        />
+        <mesh
+          name="Cube044_3"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_3.geometry}
+          material={materials.coffetable}
+        />
+        <mesh
+          name="Cube044_4"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_4.geometry}
+          material={materials.coffeetable2}
+        />
+        <mesh
+          name="Cube044_5"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_5.geometry}
+          material={materials.couch}
+        />
+        <mesh
+          name="Cube044_6"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_6.geometry}
+          material={materials["couch 2"]}
+        />
+        <mesh
+          name="Cube044_7"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_7.geometry}
+          material={materials.ps4}
+        />
+        <mesh
+          name="Cube044_8"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_8.geometry}
+          material={materials.ps5}
+        />
+        <mesh
+          name="Cube044_9"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_9.geometry}
+          material={materials.ps5sides}
+        />
+        <mesh
+          name="Cube044_10"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_10.geometry}
+          material={materials.ps5controller}
+        />
+        <mesh
+          name="Cube044_11"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_11.geometry}
+          material={materials.controllerin}
+        />
+        <mesh
+          name="Cube044_12"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_12.geometry}
+          material={materials.switchdock}
+        />
+        <mesh
+          name="Cube044_13"
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube044_13.geometry}
+          material={materials.switchscreen}
+        />
       </group>
       <group
         name="sign"
@@ -136,6 +136,9 @@ export default function Models() {
           setSignTitle("marble");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[2, 2.6, 7]} position={[0, 1, 0]} />
+        </RigidBody>
         <mesh
           name="Cube015"
           castShadow
@@ -162,6 +165,9 @@ export default function Models() {
           setSignTitle("chatgpt");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[2, 2.6, 7]} position={[0, 1, 0]} />
+        </RigidBody>
         <mesh
           name="Cube006"
           castShadow
@@ -188,6 +194,9 @@ export default function Models() {
           setSignTitle("solarite");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[2, 2.6, 7]} position={[0, 1, 0]} />
+        </RigidBody>
         <mesh
           name="Cube007"
           castShadow
@@ -214,6 +223,9 @@ export default function Models() {
           setSignTitle("portal");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[2, 2.6, 7]} position={[0, 1, 0]} />
+        </RigidBody>
         <mesh
           name="Cube008"
           castShadow
@@ -240,6 +252,9 @@ export default function Models() {
           setSignTitle("spotlight");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[1, 2.4, 6.9]} position={[0, 1.1, 0]} />
+        </RigidBody>
         <mesh
           name="Cube009"
           castShadow
@@ -266,6 +281,9 @@ export default function Models() {
           setSignTitle("awwwards");
         }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[2, 2.6, 6.9]} position={[0, 0.9, 0]} />
+        </RigidBody>
         <mesh
           name="Cube010"
           castShadow
@@ -332,6 +350,9 @@ export default function Models() {
         scale={[1.395, 3.108, 1.395]}
         userData={{ name: "ichirakugas" }}
       >
+        <RigidBody type="fixed">
+          <CuboidCollider args={[11, 6, 15.4]} position={[5, 0, 0]} />
+        </RigidBody>
         <mesh
           name="Cylinder004"
           castShadow
