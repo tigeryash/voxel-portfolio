@@ -48,33 +48,71 @@ const Player = ({ nodes, materials }: PlayerProps) => {
   };
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right } = getKeys();
+    if (!rigidBodyRef.current || !playerMeshRef.current) return;
 
-    const translate = rigidBodyRef.current.translation();
-    const rotate = playerMeshRef.current.rotation.clone();
+    const { forward, backward, left, right } = getKeys();
+    const currentLinvel = rigidBodyRef.current.linvel();
+    const currentRbRotationQuat = rigidBodyRef.current.rotation();
+
+    const currentRbEuler = new THREE.Euler().setFromQuaternion(
+      currentRbRotationQuat,
+      "YXZ"
+    );
+
+    const movementInput = { x: 0, z: 0 };
+    let newWorldOrientationY = currentRbEuler.y; // Default to current orientation
+
+    let hasMovementInput = false;
 
     if (forward) {
-      translate.z -= MOVE_SPEED * delta;
-      rotate.y = -Math.PI / 2;
+      movementInput.z = -1;
+      newWorldOrientationY = -Math.PI / 2;
+      hasMovementInput = true;
     }
     if (backward) {
-      translate.z += MOVE_SPEED * delta;
-      rotate.y = Math.PI / 2;
+      movementInput.z = 1;
+      newWorldOrientationY = Math.PI / 2;
+      hasMovementInput = true;
     }
     if (left) {
-      translate.x -= MOVE_SPEED * delta;
-      rotate.y = 0;
+      movementInput.x = -1;
+      newWorldOrientationY = 0; // Or Math.PI if 0 is right for your setup
+      hasMovementInput = true;
     }
     if (right) {
-      translate.x += MOVE_SPEED * delta;
-      rotate.y = -Math.PI;
+      movementInput.x = 1;
+      newWorldOrientationY = -Math.PI; // Or 0 if -Math.PI is left for your setup
+      hasMovementInput = true;
     }
 
-    rigidBodyRef.current.setTranslation(
-      { x: translate.x, y: translate.y, z: translate.z },
+    const moveDirection = new THREE.Vector3(
+      movementInput.x,
+      0,
+      movementInput.z
+    );
+    if (moveDirection.lengthSq() > 0) {
+      moveDirection.normalize().multiplyScalar(MOVE_SPEED);
+    } else {
+      moveDirection.set(0, 0, 0);
+    }
+    rigidBodyRef.current.setLinvel(
+      { x: moveDirection.x, y: currentLinvel.y, z: moveDirection.z },
       true
     );
-    playerMeshRef.current.rotation.set(rotate.x, rotate.y, rotate.z);
+
+    // --- Instantly rotate the RigidBody itself ---
+    // Only update rotation if there was movement input that dictates a new facing direction
+    if (hasMovementInput) {
+      rigidBodyRef.current.setRotation(
+        // Convert the target world Y Euler angle directly to a quaternion for the RigidBody
+        new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(0, newWorldOrientationY, 0, "YXZ")
+        ),
+        true
+      );
+    }
+
+    rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
 
     // --- Camera Follow ---
     const playerPosition = rigidBodyRef.current.translation();
@@ -115,12 +153,13 @@ const Player = ({ nodes, materials }: PlayerProps) => {
       position={character.initialPosition}
       // rotation={character.initialRotation} // Rotation is handled by mesh now
       enabledRotations={[false, true, false]} // Allow Y rotation
-      mass={1}
-      friction={0.5}
-      restitution={0.1}
+      friction={1}
+      restitution={0.2}
+      canSleep={false}
       linearDamping={0.5} // Some damping to prevent sliding forever
-      angularDamping={0.5}
+      angularDamping={1}
       name="player" // Add a name for debugging/identification
+      ccd={true}
     >
       {/* Adjust CapsuleCollider size and position to fit your model */}
       {/* args: [radius, height_of_cylinder_part] */}

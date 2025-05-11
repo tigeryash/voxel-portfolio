@@ -119,17 +119,37 @@ const Ground = ({ nodes, materials }: GroundProps) => {
         geometry={nodes.Cube016_10.geometry}
         material={materials["road paint"]}
       />
-      <RigidBody type="fixed">
-        <CuboidCollider args={[10, 30, 85]} position={[840, 36, 0]} />
+      <RigidBody type="fixed" restitution={0.2} friction={0}>
+        <CuboidCollider
+          args={[10, 30, 85]}
+          position={[840, 36, 0]}
+          friction={1}
+          restitution={0.2}
+        />
       </RigidBody>
-      <RigidBody type="fixed">
-        <CuboidCollider args={[900, 30, 1]} position={[0, 36, 85]} />
+      <RigidBody type="fixed" restitution={0.2} friction={0}>
+        <CuboidCollider
+          args={[900, 30, 1]}
+          position={[0, 36, 85]}
+          friction={1}
+          restitution={0.2}
+        />
       </RigidBody>
-      <RigidBody type="fixed">
-        <CuboidCollider args={[10, 30, 85]} position={[-830, 36, 0]} />
+      <RigidBody type="fixed" restitution={0.2} friction={0}>
+        <CuboidCollider
+          args={[10, 30, 85]}
+          position={[-830, 36, 0]}
+          friction={1}
+          restitution={0.2}
+        />
       </RigidBody>
-      <RigidBody type="fixed">
-        <CuboidCollider args={[900, 30, 1]} position={[0, 36, -82]} />
+      <RigidBody type="fixed" restitution={0.2} friction={0}>
+        <CuboidCollider
+          args={[900, 30, 1]}
+          position={[0, 36, -82]}
+          friction={1}
+          restitution={0.2}
+        />
       </RigidBody>
       <mesh
         name="Cube016_11"

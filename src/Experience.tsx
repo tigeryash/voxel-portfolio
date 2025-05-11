@@ -96,7 +96,7 @@ function Experience() {
         shadow-radius={softness} // Add shadow softening
         shadow-blurSamples={blurSamples}
         shadow-normalBias={1} // More precise bias
-      ></directionalLight>
+      />
       <ambientLight intensity={ambientIntensity} color="#ffffff" />
     </>
   );
