@@ -11,15 +11,18 @@ import {
   RigidBody,
   useRapier,
 } from "@react-three/rapier";
+import { useControls } from "leva";
 
 const MOVE_SPEED = 20; // Adjust as needed
 const JUMP_FORCE = 8; // Adjust as needed
-const ROTATION_SPEED = 5; // How fast the character turns
+const ROTATION_OFFSET = 2.13;
 
 const character = {
   initialPosition: new Vector3(117.36, 4, 113.657), // Start slightly higher for spawn
   initialRotation: new Vector3(0, -0.573, 0),
 };
+
+const playerMeshBaseYOffset = -4;
 
 type PlayerProps = {
   nodes: GLTFResult["nodes"];
@@ -32,58 +35,64 @@ const Player = ({ nodes, materials }: PlayerProps) => {
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { camera } = useThree(); // Get the camera
   const { rapier, world } = useRapier();
+  const { rotation } = useControls({
+    rotation: {
+      value: character.initialRotation.y,
+      min: -Math.PI,
+      max: Math.PI,
+    },
+  });
 
   // --- Camera Offset ---
   const cameraOffset = useRef(new THREE.Vector3(9, 16, 22)); // Adjust as needed (x, y, z from player)
 
-  const jump = () => {
-    const origin = rigidBodyRef.current.translation();
-    origin.y -= 0.31;
-    const direction = { x: 0, y: -1, z: 0 };
-    const ray = new rapier.Ray(origin, direction);
-    const hit = world.castRay(ray, 10, true);
+  const hopAnim = useRef({
+    active: false,
+    time: 0,
+    duration: 0.33, // Duration of one hop
+    height: 0.6, // How high the hop goes
+  });
 
-    if (hit && hit.timeOfImpact < 0.15)
-      rigidBodyRef.current.setTranslation({ x: 0, y: 0.5, z: 0 }, true);
+  const isOnGround = () => {
+    if (!rigidBodyRef.current || !rapier || !world) return false;
+    const rbPosition = rigidBodyRef.current.translation();
+    // Raycast from slightly below the capsule's actual bottom
+    const rayOrigin = {
+      x: rbPosition.x,
+      y: rbPosition.y - 2.3 - 0.05, // Bottom of capsule + small offset
+      z: rbPosition.z,
+    };
+    const rayDirection = { x: 0, y: -1, z: 0 };
+    const ray = new rapier.Ray(rayOrigin, rayDirection);
+    const hit = world.castRay(ray, 0.15, true); // Max TOI of 0.15 to be considered "on ground"
+    return hit !== null;
+  };
+
+  const jump = () => {
+    if (isOnGround() && rigidBodyRef.current) {
+      rigidBodyRef.current.applyImpulse({ x: 0, y: JUMP_FORCE, z: 0 }, true);
+      // If currently hopping, cancel it to prefer the jump
+      if (hopAnim.current.active) {
+        hopAnim.current.active = false;
+        if (playerMeshRef.current) {
+          playerMeshRef.current.position.y = playerMeshBaseYOffset;
+        }
+      }
+    }
   };
 
   useFrame((state, delta) => {
-    if (!rigidBodyRef.current || !playerMeshRef.current) return;
+    if (!rigidBodyRef.current || !playerMeshRef.current || !world || !rapier)
+      return;
 
     const { forward, backward, left, right } = getKeys();
     const currentLinvel = rigidBodyRef.current.linvel();
-    const currentRbRotationQuat = rigidBodyRef.current.rotation();
-
-    const currentRbEuler = new THREE.Euler().setFromQuaternion(
-      currentRbRotationQuat,
-      "YXZ"
-    );
 
     const movementInput = { x: 0, z: 0 };
-    let newWorldOrientationY = currentRbEuler.y; // Default to current orientation
-
-    let hasMovementInput = false;
-
-    if (forward) {
-      movementInput.z = -1;
-      newWorldOrientationY = -Math.PI / 2;
-      hasMovementInput = true;
-    }
-    if (backward) {
-      movementInput.z = 1;
-      newWorldOrientationY = Math.PI / 2;
-      hasMovementInput = true;
-    }
-    if (left) {
-      movementInput.x = -1;
-      newWorldOrientationY = 0; // Or Math.PI if 0 is right for your setup
-      hasMovementInput = true;
-    }
-    if (right) {
-      movementInput.x = 1;
-      newWorldOrientationY = -Math.PI; // Or 0 if -Math.PI is left for your setup
-      hasMovementInput = true;
-    }
+    if (forward) movementInput.z = -1;
+    if (backward) movementInput.z = 1;
+    if (left) movementInput.x = -1;
+    if (right) movementInput.x = 1;
 
     const moveDirection = new THREE.Vector3(
       movementInput.x,
@@ -92,27 +101,62 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     );
     if (moveDirection.lengthSq() > 0) {
       moveDirection.normalize().multiplyScalar(MOVE_SPEED);
-    } else {
-      moveDirection.set(0, 0, 0);
     }
+
     rigidBodyRef.current.setLinvel(
       { x: moveDirection.x, y: currentLinvel.y, z: moveDirection.z },
       true
     );
 
-    // --- Instantly rotate the RigidBody itself ---
-    // Only update rotation if there was movement input that dictates a new facing direction
-    if (hasMovementInput) {
-      rigidBodyRef.current.setRotation(
-        // Convert the target world Y Euler angle directly to a quaternion for the RigidBody
-        new THREE.Quaternion().setFromEuler(
-          new THREE.Euler(0, newWorldOrientationY, 0, "YXZ")
-        ),
-        true
+    if (movementInput.x !== 0 || movementInput.z !== 0) {
+      const targetWorldYRotation =
+        Math.atan2(movementInput.x, movementInput.z) + ROTATION_OFFSET;
+      const targetRotationQuat = new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(0, targetWorldYRotation, 0)
       );
+      // Smoothly interpolate rotation (optional, instant is also fine)
+      const currentRotationQuat = rigidBodyRef.current.rotation();
+      const slerpedRotation = new THREE.Quaternion()
+        .copy(currentRotationQuat)
+        .slerp(targetRotationQuat, delta * 15); // Adjust 15 for rotation speed
+      rigidBodyRef.current.setRotation(slerpedRotation, true);
+    }
+    rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true); // Prevent spinning from collisions
+
+    // --- Hop Animation ---
+    const isActuallyMovingHorizontally =
+      Math.sqrt(moveDirection.x ** 2 + moveDirection.z ** 2) > 0.1;
+    const currentlyOnGround = isOnGround();
+
+    if (
+      isActuallyMovingHorizontally &&
+      currentlyOnGround &&
+      !hopAnim.current.active
+    ) {
+      hopAnim.current.active = true;
+      hopAnim.current.time = 0;
     }
 
-    rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    if (hopAnim.current.active) {
+      hopAnim.current.time += delta;
+      const progress = hopAnim.current.time / hopAnim.current.duration;
+
+      if (progress >= 1) {
+        hopAnim.current.active = false;
+        playerMeshRef.current.position.y = playerMeshBaseYOffset;
+      } else {
+        // Sinusoidal hop: Math.sin(progress * Math.PI) goes 0 -> 1 -> 0
+        const hopDisplacement =
+          hopAnim.current.height * Math.sin(progress * Math.PI);
+        playerMeshRef.current.position.y =
+          playerMeshBaseYOffset + hopDisplacement;
+      }
+    } else if (currentlyOnGround) {
+      // If not hopping but on ground, ensure mesh is at its base Y offset
+      if (playerMeshRef.current.position.y !== playerMeshBaseYOffset) {
+        playerMeshRef.current.position.y = playerMeshBaseYOffset;
+      }
+    }
 
     // --- Camera Follow ---
     const playerPosition = rigidBodyRef.current.translation();
@@ -133,17 +177,21 @@ const Player = ({ nodes, materials }: PlayerProps) => {
           rigidBodyRef.current.setTranslation(character.initialPosition, true);
           rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
           rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-          // Reset mesh rotation if needed
-          playerMeshRef.current?.rotation.set(
-            character.initialRotation.x,
-            character.initialRotation.y,
-            character.initialRotation.z
+
+          const respawnRotation = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(0, character.initialRotation.y, 0) // Use the controlled initial Y
           );
+          rigidBodyRef.current.setRotation(respawnRotation, true);
+
+          // Reset hop animation
+          hopAnim.current.active = false;
+          if (playerMeshRef.current)
+            playerMeshRef.current.position.y = playerMeshBaseYOffset;
         }
       }
     );
     return () => unsubscribe();
-  }, [subscribeKeys]);
+  }, [subscribeKeys, rotation]);
 
   return (
     <RigidBody
@@ -151,7 +199,6 @@ const Player = ({ nodes, materials }: PlayerProps) => {
       type="dynamic"
       colliders={false} // Use explicit collider below
       position={character.initialPosition}
-      // rotation={character.initialRotation} // Rotation is handled by mesh now
       enabledRotations={[false, true, false]} // Allow Y rotation
       friction={1}
       restitution={0.2}
