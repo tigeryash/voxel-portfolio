@@ -59,7 +59,7 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     return hit !== null;
   };
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!rigidBodyRef.current || !playerMeshRef.current || !world || !rapier)
       return;
 
