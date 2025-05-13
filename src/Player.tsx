@@ -12,7 +12,7 @@ import {
   useRapier,
 } from "@react-three/rapier";
 
-const MOVE_SPEED = 20; // Adjust as needed
+const MOVE_SPEED = 30; // Adjust as needed
 const ROTATION_OFFSET = 2.13;
 
 const character = {
