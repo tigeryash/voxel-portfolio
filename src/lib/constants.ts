@@ -1,4 +1,16 @@
-export const projects = [
+export type Project = {
+  name: string;
+  title: string;
+  image: string;
+  tags?: string[]; // Optional
+  color: string;
+  background: string;
+  description: string;
+  link?: string;    // Optional
+  github?: string;  // Optional
+}
+
+export const projects: Project[] = [
   {
     name: "portal",
     title: "3D Portal",
@@ -78,4 +90,38 @@ export const projects = [
     link: "https://awwwards-jsm-nu.vercel.app/",
     github: "https://github.com/tigeryash/awwwards-jsm/tree/main",
   },
-] as const;
+  {
+    name: "gym",
+    title: "Gym",
+    image: "/gym.webp",
+    tags: ["React", "TailWind", "TypeScript", "GSAP"],
+    color: "#00D4FF",
+    background:
+      "linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0, 212, 255, 0.28) 20%, rgba(0, 212, 255, 0.47) 37%, rgba(0, 212, 255, 0.56) 52%, rgba(0, 212, 255, 0.67) 61%, rgba(0, 212, 255, 0.88) 79%)",
+    description:
+      "Exercise and health are important to me. I have gymnastics rings which I perform calisthenics exercises on. I like them because they're a complete gym replacement and I can do them at home.",
+
+  },
+  {
+    name: "gaming",
+    title: "Gaming",
+    image: "/gaming.webp",
+    color: "#00D4FF",
+    background:
+      "linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0, 212, 255, 0.28) 20%, rgba(0, 212, 255, 0.47) 37%, rgba(0, 212, 255, 0.56) 52%, rgba(0, 212, 255, 0.67) 61%, rgba(0, 212, 255, 0.88) 79%)",
+    description:
+      "I like to game a lot. The image on the TV is The Finals an FPS game. I've recently been into aim training and this is one game I like test my aim in and get better in. I usually play on PC but I made models of consoles I own/owned.",
+
+  },
+  {
+    name: "ichiraku",
+    title: "Ichiraku",
+    image: "/ichiraku.jpg",
+    color: "#00D4FF",
+    background:
+      "linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0, 212, 255, 0.28) 20%, rgba(0, 212, 255, 0.47) 37%, rgba(0, 212, 255, 0.56) 52%, rgba(0, 212, 255, 0.67) 61%, rgba(0, 212, 255, 0.88) 79%)",
+    description:
+      "Growing up my favorite anime was Naruto and he'd always eat at a ramen shop called Ichiraku Ramen. I though it'd be fun to make a building to practice blender so I made this. ",
+
+  },
+] 

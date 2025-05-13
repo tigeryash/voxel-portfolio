@@ -11,10 +11,8 @@ import {
   RigidBody,
   useRapier,
 } from "@react-three/rapier";
-import { useControls } from "leva";
 
 const MOVE_SPEED = 20; // Adjust as needed
-const JUMP_FORCE = 8; // Adjust as needed
 const ROTATION_OFFSET = 2.13;
 
 const character = {
@@ -35,13 +33,6 @@ const Player = ({ nodes, materials }: PlayerProps) => {
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { camera } = useThree(); // Get the camera
   const { rapier, world } = useRapier();
-  const { rotation } = useControls({
-    rotation: {
-      value: character.initialRotation.y,
-      min: -Math.PI,
-      max: Math.PI,
-    },
-  });
 
   // --- Camera Offset ---
   const cameraOffset = useRef(new THREE.Vector3(9, 16, 22)); // Adjust as needed (x, y, z from player)
@@ -66,19 +57,6 @@ const Player = ({ nodes, materials }: PlayerProps) => {
     const ray = new rapier.Ray(rayOrigin, rayDirection);
     const hit = world.castRay(ray, 0.15, true); // Max TOI of 0.15 to be considered "on ground"
     return hit !== null;
-  };
-
-  const jump = () => {
-    if (isOnGround() && rigidBodyRef.current) {
-      rigidBodyRef.current.applyImpulse({ x: 0, y: JUMP_FORCE, z: 0 }, true);
-      // If currently hopping, cancel it to prefer the jump
-      if (hopAnim.current.active) {
-        hopAnim.current.active = false;
-        if (playerMeshRef.current) {
-          playerMeshRef.current.position.y = playerMeshBaseYOffset;
-        }
-      }
-    }
   };
 
   useFrame((state, delta) => {
@@ -191,7 +169,7 @@ const Player = ({ nodes, materials }: PlayerProps) => {
       }
     );
     return () => unsubscribe();
-  }, [subscribeKeys, rotation]);
+  }, [subscribeKeys]);
 
   return (
     <RigidBody

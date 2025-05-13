@@ -4,7 +4,6 @@ import { useSignStore } from "../stores/useSignStore";
 const Modal = () => {
   const { isModalOpen, signTitle, closeModal } = useSignStore();
   const signData = projects.find((project) => project.name === signTitle);
-  console.log(signData);
 
   return (
     isModalOpen && (
@@ -42,23 +41,31 @@ const Modal = () => {
               <h1 className=" text-6xl p-2 text-nowrap">{signData?.title}</h1>
 
               <div className="flex gap-2 pr-8 ">
-                <a
-                  href={signData?.github}
-                  className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
-                >
-                  <img src="/github.svg" alt="link togithub" />
-                </a>
-                <a
-                  href={signData?.link}
-                  className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
-                >
-                  <img src="/link.svg" alt="link to project" />
-                </a>
+                {signData?.github && (
+                  <a
+                    target="_blank"
+                    href={signData?.github}
+                    className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
+                  >
+                    <img src="/github.svg" alt="link togithub" />
+                  </a>
+                )}
+                {signData?.link && (
+                  <a
+                    target="_blank"
+                    href={signData?.link}
+                    className="px-2 py-2 bg-zinc-700/80 hover:bg-zinc-100/80 rounded-lg bg"
+                  >
+                    <img src="/link.svg" alt="link to project" />
+                  </a>
+                )}
               </div>
             </div>
             <div className="flex gap-2 px-4">
-              {signData?.tags.map((tag) => (
-                <p className="px-4 rounded-full bg-zinc-700/70">{tag}</p>
+              {signData?.tags?.map((tag) => (
+                <p key={tag} className="px-4 rounded-full bg-zinc-700/70">
+                  {tag}
+                </p>
               ))}
             </div>
             <p className="px-4">{signData?.description}</p>

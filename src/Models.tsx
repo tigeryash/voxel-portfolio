@@ -20,11 +20,16 @@ export default function Models() {
         name="gaming"
         position={[99.29, 4.898, -100.911]}
         rotation={[Math.PI, -0.589, Math.PI]}
-        scale={[12.922, 6.923, 0.422]}
+        scale={[-12.922, 6.923, 0.422]}
         userData={{ name: "gaming" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsModalOpen(true);
+          setSignTitle("gaming");
+        }}
       >
         <RigidBody type="fixed">
-          <CuboidCollider args={[1, 1, 42]} position={[0, 0, -10]} />
+          <CuboidCollider args={[-1, 1, 42]} position={[0, 0, -10]} />
         </RigidBody>
         <mesh
           name="Cube044"
@@ -131,7 +136,8 @@ export default function Models() {
         rotation={[0, 0.17, 0]}
         scale={[6.045, 4.167, 0.47]}
         userData={{ name: "sign" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("marble");
         }}
@@ -160,7 +166,8 @@ export default function Models() {
         rotation={[0, 0.17, 0]}
         scale={[6.045, 4.167, 0.47]}
         userData={{ name: "sign.001" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("chatgpt");
         }}
@@ -189,7 +196,8 @@ export default function Models() {
         rotation={[0, -0.648, 0]}
         scale={[6.045, 4.167, 0.47]}
         userData={{ name: "sign.002" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("solarite");
         }}
@@ -218,7 +226,8 @@ export default function Models() {
         rotation={[0, -0.5, 0]}
         scale={[6.045, 4.167, 0.47]}
         userData={{ name: "sign.003" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("portal");
         }}
@@ -247,7 +256,8 @@ export default function Models() {
         rotation={[0, 0.939, 0]}
         scale={[7.755, 5.346, 0.603]}
         userData={{ name: "sign.004" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("spotlight");
         }}
@@ -276,7 +286,8 @@ export default function Models() {
         rotation={[0, 1.001, 0]}
         scale={[6.045, 4.167, 0.47]}
         userData={{ name: "sign.005" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setIsModalOpen(true);
           setSignTitle("awwwards");
         }}
@@ -301,11 +312,16 @@ export default function Models() {
       </group>
       <Ground nodes={nodes} materials={materials} />
       <group
-        name="dumbell001"
+        name="gym"
         position={[-107.045, 3.813, 101.082]}
         rotation={[0, 0.74, Math.PI / 2]}
         scale={[0.238, 0.815, 0.238]}
-        userData={{ name: "dumbell.001" }}
+        userData={{ name: "gym" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsModalOpen(true);
+          setSignTitle("gym");
+        }}
       >
         <mesh
           name="Cylinder010"
@@ -344,11 +360,16 @@ export default function Models() {
         />
       </group>
       <group
-        name="ichirakugas"
+        name="ichiraku"
         position={[-97.901, 5.402, -97.523]}
         rotation={[-Math.PI, 1.075, -Math.PI]}
         scale={[1.395, 3.108, 1.395]}
         userData={{ name: "ichirakugas" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsModalOpen(true);
+          setSignTitle("ichiraku");
+        }}
       >
         <RigidBody type="fixed">
           <CuboidCollider args={[11, 6, 15.4]} position={[5, 0, 0]} />

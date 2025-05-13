@@ -7,7 +7,6 @@ type GroundProps = {
 };
 
 const Ground = ({ nodes, materials }: GroundProps) => {
-  console.log(nodes.Cube016_6.geometry);
   return (
     <group
       name="level"
